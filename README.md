@@ -14,6 +14,8 @@ Unity 2019.1.5f1 (64-bit)
 
 [Reference Art - Pinterest](https://www.pinterest.pt/pin/723953708831001876/)
 
+[Reference Inventory - Pinterest](https://www.pinterest.pt/pin/723953708831001507/)
+
 ### Programming Wise
 
 [2D Extras - GitHub](https://github.com/Unity-Technologies/2d-extras)
