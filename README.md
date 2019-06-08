@@ -16,7 +16,9 @@ Unity 2019.1.5f1 (64-bit)
 
 ### Programming Wise
 
-_Woop Woop_, stuff to be added.
+[2D Extras - GitHub](https://github.com/Unity-Technologies/2d-extras)
+
+[2D Extras Tech Demos - GitHub](https://github.com/Unity-Technologies/2d-techdemos)
 
 ## Loose Ideas
 
