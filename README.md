@@ -24,7 +24,7 @@ Unity 2019.1.5f1 (64-bit)
 
 [Ambience - Dynamic Lighting 2D](https://www.youtube.com/watch?v=WWdGdE8ZwIA)
 
-[Character - Drop Shadows] (https://www.youtube.com/watch?v=ft4HUL2bFSQ)
+[Character - Drop Shadows](https://www.youtube.com/watch?v=ft4HUL2bFSQ)
 
 ## Loose Ideas
 
