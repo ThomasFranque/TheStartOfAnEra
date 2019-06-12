@@ -22,6 +22,8 @@ Unity 2019.1.5f1 (64-bit)
 
 [2D Extras Tech Demos - GitHub](https://github.com/Unity-Technologies/2d-techdemos)
 
+[Ambience - Dynamic Lighting 2D](https://www.youtube.com/watch?v=WWdGdE8ZwIA)
+
 ## Loose Ideas
 
 ### Story Concept
