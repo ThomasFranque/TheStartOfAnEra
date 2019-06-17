@@ -30,7 +30,21 @@ Unity 2019.1.5f1 (64-bit)
 
 ## Loose Ideas
 
-### Story Concept
+### Nothing here is final nor absolute
+
+#### Curse
+
+Create 2 loop walls and stick everyone to the ground
+
+#### Boots
+
+Bomb boots;
+
+Double jump boots;
+
+Bounce boots;
+
+. . .
 
 #### Toroidal justification
 
