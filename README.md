@@ -28,6 +28,9 @@ Unity 2019.1.5f1 (64-bit)
 
 [Character - Drop Shadows](https://www.youtube.com/watch?v=ft4HUL2bFSQ)
 
+[Flinthook Animation Process](https://www.youtube.com/watch?v=9aQdv1qhHOY)
+
+
 ## Loose Ideas
 
 ### Nothing here is final nor absolute
