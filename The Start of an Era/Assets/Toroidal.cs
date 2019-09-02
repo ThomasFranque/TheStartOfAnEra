@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Toroidal : MonoBehaviour
 {
-	private BoxCollider2D boxCol;
-	private Vector2 baseColSize;
+	[SerializeField]
+	private BoxCollider2D limit;
+
 	private float horizontalMin, horizontalMax, verticalMin, verticalMax;
 
 	// Start is called before the first frame update
 	void Start()
     {
-		boxCol = gameObject.GetComponent<BoxCollider2D>();
-
 		Camera camera = Camera.main;
 		float sHeight = camera.orthographicSize;
 		float sWidth = camera.aspect * sHeight;
@@ -23,24 +22,23 @@ public class Toroidal : MonoBehaviour
 		verticalMin = -sHeight;
 		verticalMax = sHeight;
 
-		baseColSize = boxCol.size;
+		limit.size = new Vector2(horizontalMax*2, verticalMax*2);
 	}
 
     // Update is called once per frame
     void Update()
     {
-		// Debug.Log("vertical out");
 
-		if (transform.position.y + baseColSize.y >= verticalMax)
-		{
-			boxCol.size = new Vector2(boxCol.size.x, baseColSize.y - (transform.position.y + baseColSize.y - verticalMax));
-			Debug.Log("vertical out");
-		}
+	}
 
-		if (transform.position.x > horizontalMax || transform.position.x < horizontalMin)
-		{
-
-			Debug.Log("Horiz out");
-		}
+	private void OnTriggerExit2D(Collider2D col)
+	{
+		col.transform.position = 
+			new Vector3(
+				-col.transform.position.x + 
+				(col.gameObject.GetComponent<BoxCollider2D>().size.x * 
+				Mathf.Sign(col.transform.position.x) * 13), 
+				col.transform.position.y, 
+				col.transform.position.z);
 	}
 }
