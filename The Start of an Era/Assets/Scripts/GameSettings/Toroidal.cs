@@ -37,7 +37,7 @@ public class Toroidal : MonoBehaviour
 			new Vector3(
 				-col.transform.position.x + 
 				(col.gameObject.GetComponent<BoxCollider2D>().size.x * 
-				Mathf.Sign(col.transform.position.x) * 13), 
+				Mathf.Sign(col.transform.position.x) * 103), 
 				col.transform.position.y, 
 				col.transform.position.z);
 	}
