@@ -70,4 +70,4 @@ Down was the way.
 
 ### USP
 
-Vertical Toroidal movement. (?)
+Vertical Toroidal movement.
