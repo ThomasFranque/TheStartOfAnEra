@@ -6,31 +6,30 @@ public class Player : Entity
 {
     // Properties//
     // Jump height
-    [SerializeField] private float Height { get; set; }
+    [SerializeField] private float jumpHeight;
 
-    // Check if player is on the ground
-    private bool IsGrounded
+
+    protected override void Start()
     {
-        get
-        {
-            Collider2D collider = Physics2D.OverlapCircle(
-                transform.position, 2.0f, LayerMask.GetMask("Ground"));
-            return (collider != null);
-        }
+        base.Start();
+        // Remove after inserting pivots on sprites
+        offset = new Vector3(transform.position.x, transform.position.y - 10, transform.position.z);
     }
 
-    public override void Update()
+    private void Update()
     {
         Move();
     }
 
     // Method for player movement
-    public override void Move()
+    protected override void Move()
     {
+        //Method variables
         float hAxis = Input.GetAxis("Horizontal");
+
         movement = rb.velocity;
 
-        movement = new Vector2(hAxis * MaxSpeed, movement.y);
+        movement = new Vector2(hAxis * maxSpeed, movement.y);
 
         // Make player face the right direction
         float shouldInvert = hAxis * transform.right.x;
@@ -52,10 +51,15 @@ public class Player : Entity
     {
         // Jump only if player is on the ground
         if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log(IsGrounded);
+
             if (IsGrounded)
             {
-                movement.y = Height;
+                movement.y = jumpHeight;
             }
+        }
+
     }
 
 }
