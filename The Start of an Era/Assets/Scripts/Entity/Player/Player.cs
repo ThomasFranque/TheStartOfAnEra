@@ -8,12 +8,13 @@ public class Player : Entity
     // Jump height
     [SerializeField] private float jumpHeight;
 
+	public override int HP { get; protected set; }
 
-    protected override void Start()
+	protected override void Start()
     {
         base.Start();
-        // Remove after inserting pivots on sprites
-        offset = new Vector3(transform.position.x, transform.position.y - 10, transform.position.z);
+		// Remove after inserting pivots on sprites
+		colliderOffset = new Vector3(transform.position.x, transform.position.y - 10, transform.position.z);
     }
 
     private void Update()
@@ -59,7 +60,11 @@ public class Player : Entity
                 movement.y = jumpHeight;
             }
         }
-
     }
 
+	protected override void OnHit(int damage)
+	{
+		HP -= damage;
+	}
+	
 }
