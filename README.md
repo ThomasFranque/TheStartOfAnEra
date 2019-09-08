@@ -2,7 +2,7 @@
 
 ## Unity Project Version
 
-Unity 2019.1.5f1 (64-bit)
+Unity 2019.2.4f1 (64-bit)
 
 ## Links
 
