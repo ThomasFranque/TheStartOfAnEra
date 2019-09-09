@@ -25,7 +25,7 @@ public class Spider : Enemy
 
 	protected override void WhileTargetingPlayer()
 	{
-		Debug.Log("Wtf it works");
+
 	}
 
 	protected override void OnHit(int damage)
