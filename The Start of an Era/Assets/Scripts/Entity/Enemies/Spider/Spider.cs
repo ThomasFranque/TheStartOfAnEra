@@ -25,7 +25,7 @@ public class Spider : Enemy
 
 	protected override void WhileTargetingPlayer()
 	{
-
+		//transform.Translate(targetedPlayerScript.transform.position * movement);
 	}
 
 	protected override void OnHit(int damage)

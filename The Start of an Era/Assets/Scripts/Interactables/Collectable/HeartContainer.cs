@@ -13,5 +13,6 @@ public class HeartContainer : Collectable
 	{
 		// When added:
 		// GameMngr.Instance.playerScript.Heal(healAmmount);
+		Debug.Log($"Picked Up: {name}");
 	}
 }
