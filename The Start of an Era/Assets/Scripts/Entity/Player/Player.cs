@@ -6,7 +6,7 @@ public class Player : Entity
 {
     // Properties//
     // Jump height
-    [SerializeField] private float jumpHeight;
+    [SerializeField] private float jumpSpeed;
 
 	public override int HP { get; protected set; }
 
@@ -55,10 +55,10 @@ public class Player : Entity
         {
             Debug.Log(IsGrounded);
 
-            if (IsGrounded)
-            {
-                movement.y = jumpHeight;
-            }
+            //if (IsGrounded)
+            //{
+                movement.y = jumpSpeed;
+            //}
         }
     }
 
