@@ -5,12 +5,15 @@ public abstract class Entity : MonoBehaviour
 	[Header ("--- Entity Properties ---")]
 	// Entity variables
 	[SerializeField] public float maxSpeed;
+    [Tooltip ("Layers where player can stand and jump")]
+    [SerializeField] LayerMask groundLayers;
 	protected Vector3 colliderOffset;
 	protected Vector2 movement;
 	protected Rigidbody2D rb;
+    protected float normalGrav;
 
     // Properties//
-	public abstract int HP { get; protected set; }
+    public abstract int HP { get; protected set; }
 
     // Check if player is on the ground
     public bool IsGrounded
@@ -18,7 +21,7 @@ public abstract class Entity : MonoBehaviour
         get
         {
             Collider2D collider = Physics2D.OverlapCircle(
-                transform.position + colliderOffset, 2.0f, LayerMask.GetMask("Ground"));
+                transform.position, 2.0f, groundLayers);
             return (collider != null);
         }
     }
@@ -26,9 +29,10 @@ public abstract class Entity : MonoBehaviour
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        normalGrav = 120.0f;
     }
 
-	public void Hit(int damage)
+    public void Hit(int damage)
 	{
 		OnHit(damage);
 	}
@@ -38,4 +42,6 @@ public abstract class Entity : MonoBehaviour
 	//movement = new Vector2(MaxSpeed, 0);
 
 	protected abstract void OnHit(int damage);
+
+    protected abstract void Jump();
 }

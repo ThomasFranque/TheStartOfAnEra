@@ -1,23 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : Entity
 {
-    // Properties//
-    // Jump height
+    //Player variables
     [SerializeField] private float jumpSpeed;
+    private float timeOfJump;
+    private float jumpTime;
+    private bool isJumpo;
+    
 
 	public override int HP { get; protected set; }
 
 	protected override void Start()
     {
         base.Start();
-		// Remove after inserting pivots on sprites
-		colliderOffset = new Vector3(transform.position.x, transform.position.y - 10, transform.position.z);
+        timeOfJump = -1500.0f;
+        jumpTime = 0.15f;
+        isJumpo = false;
     }
 
-    private void Update()
+    protected void Update()
     {
         Move();
     }
@@ -48,21 +50,38 @@ public class Player : Entity
     }
 
     // Method for jumping
-    private void Jump()
+    protected override void Jump()
     {
         // Jump only if player is on the ground
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
-            Debug.Log(IsGrounded);
 
-            //if (IsGrounded)
-            //{
+            if (IsGrounded && !isJumpo)
+            {
+                rb.gravityScale = normalGrav / 3;
                 movement.y = jumpSpeed;
-            //}
+                timeOfJump = Time.time;
+                isJumpo = true;
+            }
+
+            else if ((Time.time - timeOfJump) < jumpTime && isJumpo)
+            {
+                rb.gravityScale = normalGrav / 3;
+            }
+
+            Debug.Log($"Is on ground:{IsGrounded}");
+            Debug.Log($"Is jumping: {isJumpo}");
+        }
+
+        else
+        {
+            timeOfJump = -1500.0f;
+            rb.gravityScale = normalGrav;
+            isJumpo = false;
         }
     }
 
-	protected override void OnHit(int damage)
+    protected override void OnHit(int damage)
 	{
 		HP -= damage;
 	}

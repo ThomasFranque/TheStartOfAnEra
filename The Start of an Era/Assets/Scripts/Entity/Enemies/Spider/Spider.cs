@@ -32,4 +32,9 @@ public class Spider : Enemy
 	{
 		HP -= damage;
 	}
+
+    protected override void Jump()
+    {
+        throw new System.NotImplementedException();
+    }
 }
