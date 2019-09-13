@@ -6,19 +6,23 @@ public class Spider : Enemy
 {
 	public override int HP { get; protected set; }
 
+    // ** Sound
+    [Header("SoundFX")]
+    public AudioClip walk;
+
 	// Start is called before the first frame update
 	protected override void Start()
 	{
 		base.Start();
-	}
+    }
 
-	// Update is called once per frame
-	protected override void Update()
+    // Update is called once per frame
+    protected override void Update()
 	{
 		base.Update();
-	}
+    }
 
-	protected override void Move()
+    protected override void Move()
 	{
 		// Blablabla playerScript.position move to that, kill etc
 	}
