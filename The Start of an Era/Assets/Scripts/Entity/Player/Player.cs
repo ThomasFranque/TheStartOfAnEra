@@ -68,9 +68,6 @@ public class Player : Entity
             {
                 rb.gravityScale = normalGrav / 3;
             }
-
-            Debug.Log($"Is on ground:{IsGrounded}");
-            Debug.Log($"Is jumping: {isJumpo}");
         }
 
         else
