@@ -85,5 +85,11 @@ public class Player : Entity
 	{
 		HP -= damage;
 	}
+
+    //INSERT INTERACTION METHOD FOR PLAYER TOWARDS WORLD
+    //private void Interaction()
+    //{
+
+    //}
 	
 }
