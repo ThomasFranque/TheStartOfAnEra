@@ -4,7 +4,7 @@ public abstract class Entity : MonoBehaviour
 {
 	[Header ("--- Entity Properties ---")]
 	// Entity variables
-	[SerializeField] public float maxSpeed;
+	[SerializeField] protected float maxSpeed;
     [Tooltip ("Layers where player can stand and jump")]
     [SerializeField] LayerMask groundLayers;
 	protected Vector3 colliderOffset;
