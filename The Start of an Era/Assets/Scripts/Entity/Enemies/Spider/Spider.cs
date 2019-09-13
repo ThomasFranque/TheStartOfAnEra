@@ -8,7 +8,7 @@ public class Spider : Enemy
 
     // ** Sound
     [Header("SoundFX")]
-    public AudioClip walk;
+    public AudioSource walk;
 
 	private float idleStopTime, idleWalkTime, idleWalkSpeed;
 	private float timeOfIdleStop, timeOfIdleWalk;
@@ -27,6 +27,8 @@ public class Spider : Enemy
 		idleStopTime = Time.time;
 		timeOfIdleStop = 3.0f;
 		timeOfIdleWalk = 5.0f;
+
+        walk = GetComponent<AudioSource>();
 
 		maxSpeed = 100;
 		HP = 1;
@@ -54,9 +56,11 @@ public class Spider : Enemy
 			}
 			else
 			{
-				// MOVING
-				// Add sound here
-				movement = rb.velocity;
+                // MOVING
+                // Sound
+                StartCoroutine(WalkCoroutine());
+
+                movement = rb.velocity;
 				movement = new Vector2(0.5f * maxSpeed, movement.y);
 				rb.velocity = movement;
 			}
@@ -90,8 +94,16 @@ public class Spider : Enemy
 		throw new System.NotImplementedException();
 	}
 
+    internal IEnumerator WalkCoroutine()
+    {
+        walk.mute = false;
+        walk.pitch = Random.Range(0.75f, 1.5f);
+        yield return new WaitForSeconds(0.3f);
+        walk.mute = true;
+    }
+
 #if UNITY_EDITOR
-	private void OnDrawGizmos()
+    private void OnDrawGizmos()
 	{
 		Gizmos.color = Color.yellow;
 		Gizmos.DrawSphere(transform.position, 2.0f);
