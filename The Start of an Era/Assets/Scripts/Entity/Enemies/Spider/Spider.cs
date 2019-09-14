@@ -10,11 +10,33 @@ public class Spider : Enemy
 	[Header("SoundFX")]
 	public AudioSource walk;
 
-	private float idleStopTime, idleWalkTime, idleWalkSpeed;
+	private float idleStopTime, idleWalkTime;
 	private float timeOfIdleStop, timeOfIdleWalk;
+	private float jumpSpeed, jumpCooldownTime, timeOfJumpCooldown;
 
 	private int walkDirection;
 
+	private bool InAttackRange
+	{
+		get
+		{
+			Collider2D[] colliders = Physics2D.OverlapCircleAll
+				(transform.position, 30.0f);
+
+			foreach (Collider2D col in colliders)
+			{
+				if (col.tag == "Player")
+					return 1 > 0;
+			}
+
+			return false;
+		}
+	}
+
+	private bool JumpOnCooldown
+	{
+		get => Time.time < timeOfJumpCooldown + jumpCooldownTime;
+	}
 	private bool IsIdle
 	{
 		get => Time.time < idleStopTime + timeOfIdleStop && Time.time > idleStopTime;
@@ -31,6 +53,9 @@ public class Spider : Enemy
 		timeOfIdleWalk = 5.0f;
 
 		maxSpeed = 100;
+		jumpSpeed = 230;
+		jumpCooldownTime = 2.0f;
+		damage = 15;
 		HP = 1;
 	}
 
@@ -90,11 +115,32 @@ public class Spider : Enemy
 	protected override void OnPlayerSpotted()
 	{
 		base.OnPlayerSpotted();
+
+		// Screech here
 	}
 
 	protected override void WhileTargetingPlayer()
 	{
-		//transform.Translate(targetedPlayerScript.transform.position * movement);
+		movement = rb.velocity;
+
+		if (!InAttackRange)
+		{
+			// Player on the left
+			if (transform.position.x > targetedPlayerScript.transform.position.x)
+			{
+				movement = new Vector2(maxSpeed * -1, movement.y);
+			}
+			// Player on the right 
+			else
+			{
+				movement = new Vector2(maxSpeed, movement.y);
+			}
+
+			rb.velocity = movement;
+		}
+		// jump
+		else if (InAttackRange && IsGrounded && !JumpOnCooldown)
+			Jump();
 	}
 
 	protected override void OnHit(int damage)
@@ -104,7 +150,11 @@ public class Spider : Enemy
 
 	protected override void Jump()
 	{
-		throw new System.NotImplementedException();
+		// Update time of jump
+		timeOfJumpCooldown = Time.time;
+		rb.velocity = new Vector2(
+			(targetedPlayerScript.transform.position.x - transform.position.x) * (maxSpeed * 0.05f),
+			jumpSpeed);
 	}
 
 	//   internal IEnumerator WalkCoroutine()
@@ -119,7 +169,7 @@ public class Spider : Enemy
 	private void OnDrawGizmos()
 	{
 		Gizmos.color = Color.yellow;
-		Gizmos.DrawSphere(transform.position, 2.0f);
+		Gizmos.DrawWireSphere(transform.position, 35.0f);
 	}
 #endif
 }
