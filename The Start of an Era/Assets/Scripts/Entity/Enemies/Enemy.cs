@@ -27,7 +27,8 @@ public abstract class Enemy : Entity
 	protected RaycastHit2D spottedPlayer;
 	protected Player targetedPlayerScript;
 	protected bool targetingPlayer;
-	
+	protected int damage;
+
 	private float spottedTime;
 
 	// Check for the player in sightline
@@ -122,4 +123,19 @@ public abstract class Enemy : Entity
 	}
 
 	protected abstract void WhileTargetingPlayer();
+
+	protected virtual void OnPlayerCollision(GameObject obj)
+	{
+		obj.GetComponent<Entity>().Hit(damage);
+	}
+
+	private void OnCollisionEnter2D(Collision2D col)
+	{
+		switch (col.gameObject.tag)
+		{
+			case "Player":
+				OnPlayerCollision(col.gameObject);
+				break;
+		}
+	}
 }

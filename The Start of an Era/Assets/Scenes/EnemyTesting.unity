@@ -398,7 +398,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 317635299}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.715, y: 0, z: 0}
+  m_LocalPosition: {x: -73, y: 8, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0}
   m_Children: []
   m_Father: {fileID: 661894174}
@@ -571,7 +571,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 516596552}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.109, y: 0, z: 0}
+  m_LocalPosition: {x: 73, y: 8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 661894174}
@@ -614,7 +614,7 @@ MonoBehaviour:
   maxSpeed: 0
   groundLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 98304
   sightableLayers:
     serializedVersion: 2
     m_Bits: 512
@@ -622,7 +622,7 @@ MonoBehaviour:
   sightEnd: {fileID: 317635299}
   timeOfInterest: 3
   drawLineOfSight: 0
-  walk: {fileID: 8300000, guid: dfabb93619b14294f9fcfb17bb37eca6, type: 3}
+  walk: {fileID: 661894176}
 --- !u!50 &661894171
 Rigidbody2D:
   serializedVersion: 4
@@ -2025,7 +2025,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1654046198}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1654046200
 Camera:
   m_ObjectHideFlags: 0
