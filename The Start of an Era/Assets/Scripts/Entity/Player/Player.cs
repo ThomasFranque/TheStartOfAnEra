@@ -7,7 +7,9 @@ public class Player : Entity
     private float timeOfJump;
     private float jumpTime;
     private bool isJumpo;
-    
+
+    [Header("Sound")]
+    public AudioSource onLand;
 
 	public override int HP { get; protected set; }
 
@@ -69,12 +71,16 @@ public class Player : Entity
                 rb.gravityScale = normalGrav / 3;
             }
         }
-
+        // Onland
         else
         {
             timeOfJump = -1500.0f;
             rb.gravityScale = normalGrav;
             isJumpo = false;
+
+            // Onland Sound
+            onLand.pitch = Random.Range(1.0f, 1.5f);
+            onLand.Play();
         }
     }
 
@@ -82,6 +88,11 @@ public class Player : Entity
 	{
 		HP -= damage;
 	}
+
+    private void OnLand()
+    {
+
+    }
 
     //INSERT INTERACTION METHOD FOR PLAYER TOWARDS WORLD
     //private void Interaction()
