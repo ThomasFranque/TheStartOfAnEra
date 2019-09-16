@@ -10,6 +10,7 @@ public class Spider : Enemy
 	protected override void Start()
 	{
 		base.Start();
+        HP = 10;
 	}
 
 	// Update is called once per frame

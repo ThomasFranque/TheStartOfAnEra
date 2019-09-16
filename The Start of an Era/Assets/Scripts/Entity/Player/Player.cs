@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Player : Entity
 {
@@ -6,22 +7,30 @@ public class Player : Entity
     [SerializeField] private float jumpSpeed;
     private float timeOfJump;
     private float jumpTime;
+    private int baseDmg;
     private bool isJumpo;
-    
+    [SerializeField] protected NormalMelee baseMelee;
 
-	public override int HP { get; protected set; }
+    public int runeDmg;
+    public int actualDmg;
 
-	protected override void Start()
+    public override int HP { get; protected set; }
+
+    protected override void Start()
     {
         base.Start();
         timeOfJump = -1500.0f;
         jumpTime = 0.15f;
         isJumpo = false;
+        baseDmg = 6;
+        runeDmg = 1;
     }
 
     protected void Update()
     {
         Move();
+        Attack();
+        StrenghtCounter();
     }
 
     // Method for player movement
@@ -55,7 +64,6 @@ public class Player : Entity
         // Jump only if player is on the ground
         if (Input.GetKey(KeyCode.Space))
         {
-
             if (IsGrounded && !isJumpo)
             {
                 rb.gravityScale = normalGrav / 3;
@@ -82,14 +90,34 @@ public class Player : Entity
     }
 
     protected override void OnHit(int damage)
-	{
-		HP -= damage;
-	}
+    {
+        HP -= damage;
+    }
+
+    protected override void Attack()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Debug.Log("Player attack");
+            baseMelee.FindTargets();
+        }
+    }
+
+    protected int StrenghtCounter()
+    {
+        //Adapt this method after runes are created to calculate how much player can hit enemies with
+        return actualDmg = baseDmg + runeDmg;
+    }
+
 
     //INSERT INTERACTION METHOD FOR PLAYER TOWARDS WORLD
     //private void Interaction()
     //{
 
     //}
-	
+
+    protected IEnumerator CWalkingAnim()
+    {
+        yield return new WaitForSeconds(0.0f);
+    }	
 }

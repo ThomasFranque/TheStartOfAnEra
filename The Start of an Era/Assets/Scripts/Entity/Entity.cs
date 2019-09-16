@@ -4,13 +4,14 @@ public abstract class Entity : MonoBehaviour
 {
 	[Header ("--- Entity Properties ---")]
 	// Entity variables
-	[SerializeField] public float maxSpeed;
-    [Tooltip ("Layers where player can stand and jump")]
-    [SerializeField] LayerMask groundLayers;
+	[SerializeField] protected float maxSpeed;
+    [Tooltip("Layers where player can stand and jump")]
+    [SerializeField] protected LayerMask groundLayers;
+    protected float normalGrav;
 	protected Vector3 colliderOffset;
 	protected Vector2 movement;
 	protected Rigidbody2D rb;
-    protected float normalGrav;
+    protected bool canJump;
 
     // Properties//
     public abstract int HP { get; protected set; }
@@ -37,11 +38,18 @@ public abstract class Entity : MonoBehaviour
 		OnHit(damage);
 	}
 
+    // Method for movement
 	protected abstract void Move();
 	//movement = rb.velocity;
 	//movement = new Vector2(MaxSpeed, 0);
-
+    
+    // Method for taking damage 
 	protected abstract void OnHit(int damage);
 
+    // Method for jump action
     protected abstract void Jump();
+
+    // Virtual method to be used if entity has attack actions
+    protected virtual void Attack()
+    { }
 }
