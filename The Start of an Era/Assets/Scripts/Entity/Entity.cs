@@ -11,7 +11,9 @@ public abstract class Entity : MonoBehaviour
 	protected Vector3 colliderOffset;
 	protected Vector2 movement;
 	protected Rigidbody2D rb;
+    protected AudioSource audioSrc;
     protected bool canJump;
+
 
     // Properties//
     public abstract int HP { get; protected set; }
@@ -30,6 +32,7 @@ public abstract class Entity : MonoBehaviour
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        audioSrc = GetComponent<AudioSource>();
         normalGrav = 120.0f;
     }
 

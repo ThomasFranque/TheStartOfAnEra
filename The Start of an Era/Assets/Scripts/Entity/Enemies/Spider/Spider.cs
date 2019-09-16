@@ -58,21 +58,21 @@ public class Spider : Enemy
 		jumpSpeed = 230;
 		jumpCooldownTime = 2.0f;
 		damage = 15;
-		HP = 1;
+		HP = 10;
 	}
-    // Start is called before the first frame update
-    protected override void Start()
-    {
-        base.Start();
-        HP = 10;
-    }
 
     // Update is called once per frame
     protected override void Update()
     {
         base.Update();
 
-	protected override void Move()
+        //if(HP <= 0)
+        //{
+        //    Destroy(gameObject);
+        //}
+    }
+
+    protected override void Move()
 	{
 		// Blablabla playerScript.position move to that, kill etc
 
@@ -115,13 +115,15 @@ public class Spider : Enemy
 		}
 		#endregion
 	}
-        //if(HP <= 0)
-        //{
-        //    Destroy(gameObject);
-        //}
+
+    protected override void OnHit(int damage)
+    {
+        HP -= damage;
+        Debug.Log($"Spider HP: {HP}");
     }
 
-	protected override void WhileIdle()
+
+    protected override void WhileIdle()
 	{
 		Move();
 	}
@@ -159,11 +161,6 @@ public class Spider : Enemy
 			Jump();
 	}
 
-    protected override void WhileTargetingPlayer()
-    {
-        //transform.Translate(targetedPlayerScript.transform.position * movement);
-    }
-
 	protected override void Jump()
 	{
 		// Update time of jump
@@ -192,9 +189,4 @@ public class Spider : Enemy
 		Gizmos.DrawWireSphere(transform.position, 35.0f);
 	}
 #endif
-    protected override void OnHit(int damage)
-    {
-        HP -= damage;
-        Debug.Log($"Spider HP: {HP}");
-    }
 }

@@ -19,8 +19,6 @@ public class Player : Entity
 
     public int ActualDamage { get; private set; }
 
-    public override int HP { get; protected set; }
-
     protected override void Start()
     {
         base.Start();
