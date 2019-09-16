@@ -116,12 +116,12 @@ public class Spider : Enemy
 		#endregion
 	}
 
-    protected override void OnHit(int damage)
+    protected override void OnHit(int damage, Vector3 hitDirection, float knockBackSpeed)
     {
         HP -= damage;
+        rb.velocity = hitDirection;
         Debug.Log($"Spider HP: {HP}");
     }
-
 
     protected override void WhileIdle()
 	{

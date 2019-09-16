@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 
-public class LightAttack : MonoBehaviour
+public class HeavyAttack : MonoBehaviour
 {
     //Normal att. variables
+    [SerializeField] private float lightKnockback;
     protected Player playerScript;
     private Vector2 meleeRange;
 
     protected void Start()
     {
         playerScript = transform.parent.GetComponent<Player>();
-        meleeRange = new Vector2(20.0f, 15.0f);
+        meleeRange = new Vector2(35.0f, 20.0f);
     }
 
     public void FindTargets()
@@ -27,17 +28,21 @@ public class LightAttack : MonoBehaviour
             Enemy enemyScript = enemyColl.GetComponent<Enemy>();
 
             Debug.Log(
-                $"Found enemy and dealing {playerScript.ActualDamage} damage");
+                $"Found enemy and dealing " +
+                $"{playerScript.ActualDamage + 3} heavy damage");
 
-            enemyScript.Hit(playerScript.ActualDamage);
 
             Vector3 hitDirection =
                 (enemyScript.transform.position -
                 transform.position).normalized;
 
-            hitDirection.y = 100f;
+            hitDirection.y = 1.25f;
 
-            enemyScript.GetComponent<Rigidbody2D>().AddForce(hitDirection);
+            enemyScript.Hit(
+                playerScript.ActualDamage + 3, hitDirection, lightKnockback);
+
+
+            hitDirection.y = 200f;
         }
     }
 

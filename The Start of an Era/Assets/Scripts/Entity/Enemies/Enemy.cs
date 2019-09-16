@@ -92,9 +92,10 @@ public abstract class Enemy : Entity
 			WhileTargetingPlayer();
 	}
 
-	protected void HitPlayer(int damage)
-	{
-		targetedPlayerScript.Hit(damage);
+	protected void HitPlayer
+        (int damage, Vector3 hitDirection, float knockBackSpeed)
+    {
+		targetedPlayerScript.Hit(damage, hitDirection, knockBackSpeed);
 	}
 
 	protected abstract void WhileIdle();
@@ -124,7 +125,7 @@ public abstract class Enemy : Entity
 
 	protected virtual void OnPlayerCollision(GameObject obj)
 	{
-		obj.GetComponent<Entity>().Hit(damage);
+		obj.GetComponent<Entity>().Hit(damage, hitDirection, knockBackSpeed);
 	}
 
 	private void OnCollisionEnter2D(Collision2D col)

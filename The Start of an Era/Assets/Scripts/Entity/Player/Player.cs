@@ -9,7 +9,9 @@ public class Player : Entity
     private float jumpTime;
     private int baseDmg;
     private bool isJumpo;
-    [SerializeField] protected LightAttack baseMelee;
+    [SerializeField] protected LightAttack LightAttack;
+    [SerializeField] protected HeavyAttack HeavyAttack;
+
 
 
     private int runeDmg;
@@ -25,7 +27,7 @@ public class Player : Entity
     {
         base.Start();
         timeOfJump = -1500.0f;
-        jumpTime = 0.15f;
+        jumpTime = 0.5f;
         isJumpo = false;
         baseDmg = 6;
         runeDmg = 1;
@@ -86,7 +88,13 @@ public class Player : Entity
             {
                 rb.gravityScale = normalGrav / 3;
             }
+
+            else
+            {
+                rb.gravityScale = normalGrav;
+            }
         }
+
         // Onland
         else
         {
@@ -100,16 +108,23 @@ public class Player : Entity
         }
     }
 
-    protected override void OnHit(int damage)
+    protected override void OnHit(int damage, Vector3 hitDirection, float knockBackSpeed)
     {
         HP -= damage;
+        rb.velocity = hitDirection;
+        Debug.Log($"Player's HP: {HP}");
     }
 
     protected override void Attack()
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            baseMelee.FindTargets();
+            LightAttack.FindTargets();
+        }
+
+        else if(Input.GetKeyDown(KeyCode.X))
+        {
+            HeavyAttack.FindTargets();
         }
     }
 
