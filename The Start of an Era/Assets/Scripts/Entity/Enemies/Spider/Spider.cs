@@ -9,6 +9,7 @@ public class Spider : Enemy
 	// ** Sound
 	[Header("SoundFX")]
 	public AudioSource walk;
+    public AudioSource jump; // ** not implemented
 
 	private float idleStopTime, idleWalkTime;
 	private float timeOfIdleStop, timeOfIdleWalk;
@@ -95,8 +96,9 @@ public class Spider : Enemy
 				// the sound should maybe loop too, and be shorter?
 				if (!walk.isPlaying)
 				{
-					walk.pitch = Random.Range(0.75f, 1.5f);
-					walk.Play();
+					walk.pitch = Random.Range(0.75f, 2.0f);
+                    walk.volume = Random.Range(1.50f, 2.0f);
+                    walk.Play();
 				}
 
 				movement = rb.velocity;
@@ -155,6 +157,10 @@ public class Spider : Enemy
 		rb.velocity = new Vector2(
 			(targetedPlayerScript.transform.position.x - transform.position.x) * (maxSpeed * 0.05f),
 			jumpSpeed);
+
+        // Jump Sound
+        jump.pitch = Random.Range(1.0f, 1.5f);
+        jump.Play();
 	}
 
 	//   internal IEnumerator WalkCoroutine()
