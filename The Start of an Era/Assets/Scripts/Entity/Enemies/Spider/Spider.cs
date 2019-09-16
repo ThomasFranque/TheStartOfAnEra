@@ -126,12 +126,12 @@ public class Spider : Enemy
 		if (!InAttackRange)
 		{
 			// Player on the left
-			if (transform.position.x > targetedPlayerScript.transform.position.x)
+			if (transform.position.x > targetedPlayerScript.transform.position.x + 20.0f)
 			{
 				movement = new Vector2(maxSpeed * -1, movement.y);
 			}
 			// Player on the right 
-			else
+			else if (transform.position.x < targetedPlayerScript.transform.position.x - 20.0f)
 			{
 				movement = new Vector2(maxSpeed, movement.y);
 			}
