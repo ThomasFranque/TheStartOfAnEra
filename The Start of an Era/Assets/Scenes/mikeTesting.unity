@@ -320,8 +320,6 @@ MonoBehaviour:
     m_Bits: 98304
   jumpSpeed: 200
   baseMelee: {fileID: 687272024}
-  runeDmg: 0
-  actualDmg: 0
 --- !u!61 &287427741
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -752,7 +750,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 687272021}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.1, y: 13.4, z: 0}
+  m_LocalPosition: {x: 18, y: 14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 287427738}

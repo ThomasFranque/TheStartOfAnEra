@@ -9,10 +9,11 @@ public class Player : Entity
     private float jumpTime;
     private int baseDmg;
     private bool isJumpo;
-    [SerializeField] protected NormalMelee baseMelee;
+    [SerializeField] protected LightAttack baseMelee;
 
-    public int runeDmg;
-    public int actualDmg;
+    private int runeDmg;
+
+    public int ActualDamage { get; private set; }
 
     public override int HP { get; protected set; }
 
@@ -31,6 +32,11 @@ public class Player : Entity
         Move();
         Attack();
         StrenghtCounter();
+
+        //if(HP <= 0)
+        //{
+        //    Destroy(gameObject);
+        //}
     }
 
     // Method for player movement
@@ -98,7 +104,6 @@ public class Player : Entity
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Debug.Log("Player attack");
             baseMelee.FindTargets();
         }
     }
@@ -106,7 +111,7 @@ public class Player : Entity
     protected int StrenghtCounter()
     {
         //Adapt this method after runes are created to calculate how much player can hit enemies with
-        return actualDmg = baseDmg + runeDmg;
+        return ActualDamage = baseDmg + runeDmg;
     }
 
 

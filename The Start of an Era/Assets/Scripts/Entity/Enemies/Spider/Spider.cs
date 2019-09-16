@@ -4,35 +4,42 @@ using UnityEngine;
 
 public class Spider : Enemy
 {
-	public override int HP { get; protected set; }
+    public override int HP { get; protected set; }
 
-	// Start is called before the first frame update
-	protected override void Start()
-	{
-		base.Start();
+    // Start is called before the first frame update
+    protected override void Start()
+    {
+        base.Start();
         HP = 10;
-	}
+    }
 
-	// Update is called once per frame
-	protected override void Update()
-	{
-		base.Update();
-	}
+    // Update is called once per frame
+    protected override void Update()
+    {
+        base.Update();
 
-	protected override void Move()
-	{
-		// Blablabla playerScript.position move to that, kill etc
-	}
+        //if(HP <= 0)
+        //{
+        //    Destroy(gameObject);
+        //}
+    }
 
-	protected override void WhileTargetingPlayer()
-	{
-		//transform.Translate(targetedPlayerScript.transform.position * movement);
-	}
+    protected override void Move()
+    {
+        // Blablabla playerScript.position move to that, kill etc
+    }
 
-	protected override void OnHit(int damage)
-	{
-		HP -= damage;
-	}
+    protected override void WhileTargetingPlayer()
+    {
+        //transform.Translate(targetedPlayerScript.transform.position * movement);
+    }
+
+    protected override void OnHit(int damage)
+    {
+        HP -= damage;
+        Debug.Log($"Spider HP: {HP}");
+
+    }
 
     protected override void Jump()
     {

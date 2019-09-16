@@ -1,23 +1,21 @@
 ﻿using UnityEngine;
 
-public class NormalMelee : MonoBehaviour
+public class LightAttack : MonoBehaviour
 {
     //Normal att. variables
-    protected Player player;
+    protected Player playerScript;
     private Vector2 meleeRange;
 
     protected void Start()
     {
-        player = GetComponent<Player>();
-        meleeRange = new Vector2(20.0f, 12.0f);
+        playerScript = transform.parent.GetComponent<Player>();
+        meleeRange = new Vector2(20.0f, 15.0f);
     }
 
     public void FindTargets()
     {
-        Debug.Log("Trying to find enemies...");
         Collider2D[] inRange = Physics2D.OverlapBoxAll(
             transform.position, meleeRange, 0.0f, LayerMask.GetMask("Enemy"));
-        Debug.Log(inRange);
 
         DealDamage(inRange);
     }
@@ -26,19 +24,22 @@ public class NormalMelee : MonoBehaviour
     {
         foreach (Collider2D enemyColl in enemies)
         {
-            Debug.Log("Found enemy and dealing damage");
+            Enemy enemyScript = enemyColl.GetComponent<Enemy>();
 
-            enemyColl.GetComponent<Entity>().Hit(player.actualDmg);
+            Debug.Log(
+                $"Found enemy and dealing {playerScript.ActualDamage} damage");
+
+            enemyScript.Hit(playerScript.ActualDamage);
 
             Vector3 hitDirection =
-                (enemyColl.transform.position -
+                (enemyScript.transform.position -
                 transform.position).normalized;
 
-            hitDirection.y = 1.25f;
+            hitDirection.y = 100f;
+
+            enemyScript.GetComponent<Rigidbody2D>().AddForce(hitDirection);
         }
     }
-
-
 
     private void OnDrawGizmosSelected()
     {
