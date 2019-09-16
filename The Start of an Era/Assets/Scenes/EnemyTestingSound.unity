@@ -249,8 +249,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -153.4, y: -57.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
-  m_Children:
-  - {fileID: 687272023}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -320,9 +319,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 98304
   jumpSpeed: 200
-  baseMelee: {fileID: 687272024}
-  runeDmg: 0
-  actualDmg: 0
 --- !u!61 &287427741
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -387,7 +383,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 317635300}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Sight End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -560,7 +556,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 516596553}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Sight Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -594,17 +590,13 @@ GameObject:
   - component: {fileID: 661894171}
   - component: {fileID: 661894172}
   - component: {fileID: 661894170}
-<<<<<<< HEAD
-  m_Layer: 10
-=======
   - component: {fileID: 661894175}
   - component: {fileID: 661894176}
   - component: {fileID: 661894177}
   - component: {fileID: 661894178}
   m_Layer: 8
->>>>>>> thomasWorkshop
   m_Name: Enemy
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -739,46 +731,21 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 661894169}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-<<<<<<< HEAD
-  m_LocalPosition: {x: -69.7, y: -48.2, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 0}
-=======
   m_LocalPosition: {x: 109.5, y: -60.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
->>>>>>> thomasWorkshop
   m_Children:
   - {fileID: 516596553}
   - {fileID: 317635300}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
---- !u!1 &687272021
-GameObject:
-=======
 --- !u!95 &661894175
 Animator:
   serializedVersion: 3
->>>>>>> thomasWorkshop
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 687272023}
-  - component: {fileID: 687272024}
-  m_Layer: 9
-  m_Name: CQC
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &687272023
-Transform:
-=======
   m_GameObject: {fileID: 661894169}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
@@ -793,23 +760,10 @@ Transform:
   m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!82 &661894176
 AudioSource:
->>>>>>> thomasWorkshop
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 687272021}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.1, y: 13.4, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 287427738}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &687272024
-MonoBehaviour:
-=======
   m_GameObject: {fileID: 661894169}
   m_Enabled: 1
   serializedVersion: 4
@@ -998,19 +952,10 @@ AudioSource:
     m_RotationOrder: 4
 --- !u!82 &661894178
 AudioSource:
->>>>>>> thomasWorkshop
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 687272021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1830894e70fb62348aa6b6ce9c2513e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-=======
   m_GameObject: {fileID: 661894169}
   m_Enabled: 1
   serializedVersion: 4
@@ -1101,7 +1046,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
->>>>>>> thomasWorkshop
 --- !u!1 &704520206
 GameObject:
   m_ObjectHideFlags: 0

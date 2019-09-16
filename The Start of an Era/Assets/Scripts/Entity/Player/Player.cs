@@ -12,6 +12,10 @@ public class Player : Entity
     [SerializeField] protected LightAttack baseMelee;
 
     private int runeDmg;
+    [Header("Sound")]
+    public AudioSource onLand;
+
+	public override int HP { get; protected set; }
 
     public int ActualDamage { get; private set; }
 
@@ -82,16 +86,17 @@ public class Player : Entity
             {
                 rb.gravityScale = normalGrav / 3;
             }
-
-            Debug.Log($"Is on ground:{IsGrounded}");
-            Debug.Log($"Is jumping: {isJumpo}");
         }
-
+        // Onland
         else
         {
             timeOfJump = -1500.0f;
             rb.gravityScale = normalGrav;
             isJumpo = false;
+
+            // Onland Sound
+            onLand.pitch = Random.Range(1.0f, 1.5f);
+            onLand.Play();
         }
     }
 
@@ -114,6 +119,11 @@ public class Player : Entity
         return ActualDamage = baseDmg + runeDmg;
     }
 
+
+    private void OnLand()
+    {
+
+    }
 
     //INSERT INTERACTION METHOD FOR PLAYER TOWARDS WORLD
     //private void Interaction()

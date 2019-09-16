@@ -14,7 +14,7 @@ public abstract class Collectable : Interactable
 	{
 		base.Start();
 		rb = GetComponent<Rigidbody2D>();
-		AddSpeed(Random.Range(5.0f, 25.0f), Random.Range(20.0f, 50.0f));
+		AddSpeed(Random.Range(-25.0f, 25.0f), Random.Range(20.0f, 50.0f));
 	}
 
 	private void OnCollisionEnter2D(Collision2D col)

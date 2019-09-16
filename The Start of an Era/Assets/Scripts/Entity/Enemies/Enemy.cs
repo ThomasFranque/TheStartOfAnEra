@@ -25,11 +25,12 @@ public abstract class Enemy : Entity
 	protected RaycastHit2D spottedPlayer;
 	protected Player targetedPlayerScript;
 	protected bool targetingPlayer;
-	
+	protected int damage;
+
 	private float spottedTime;
 
 	// Check for the player in sightline
-	protected bool IsPlayerSpotted
+	protected bool IsPlayerEyeSight
 	{
 		get
 		{
@@ -40,6 +41,11 @@ public abstract class Enemy : Entity
 
 			return spottedPlayer;
 		}
+	}
+
+	protected bool IsTargeting
+	{
+		get => targetedPlayerScript != null;
 	}
 
 	// Start is called before the first frame update
@@ -68,15 +74,17 @@ public abstract class Enemy : Entity
 		if (targetedPlayerScript == null)
 		{
 			// Player was spotted
-			if (IsPlayerSpotted)
+			if (IsPlayerEyeSight)
 				OnPlayerSpotted();
+			else
+				WhileIdle();
 		}
 		// Interest time countdown
 		else if (spottedTime + timeOfInterest <= Time.time)
 			OnLooseInterest();
 
 		// While the player is in line of sight
-		if (IsPlayerSpotted)
+		if (IsPlayerEyeSight)
 			WhilePlayerInLineOfSight();
 
 		// While the player is being targeted
@@ -88,6 +96,8 @@ public abstract class Enemy : Entity
 	{
 		targetedPlayerScript.Hit(damage);
 	}
+
+	protected abstract void WhileIdle();
 
 	protected virtual void OnPlayerSpotted()
 	{
@@ -111,4 +121,19 @@ public abstract class Enemy : Entity
 	}
 
 	protected abstract void WhileTargetingPlayer();
+
+	protected virtual void OnPlayerCollision(GameObject obj)
+	{
+		obj.GetComponent<Entity>().Hit(damage);
+	}
+
+	private void OnCollisionEnter2D(Collision2D col)
+	{
+		switch (col.gameObject.tag)
+		{
+			case "Player":
+				OnPlayerCollision(col.gameObject);
+				break;
+		}
+	}
 }
