@@ -11,9 +11,11 @@ public class Player : Entity
     private bool isJumpo;
     [SerializeField] protected LightAttack baseMelee;
 
+
     private int runeDmg;
     [Header("Sound")]
-    public AudioSource onLand;
+	[SerializeField]private AudioClip landSound;
+
 
 	public override int HP { get; protected set; }
 
@@ -93,8 +95,8 @@ public class Player : Entity
             isJumpo = false;
 
             // Onland Sound
-            onLand.pitch = Random.Range(1.0f, 1.5f);
-            onLand.Play();
+            audioSrc.pitch = Random.Range(1.0f, 1.5f);
+            //audioSrc.PlayOneShot(landSound);
         }
     }
 
