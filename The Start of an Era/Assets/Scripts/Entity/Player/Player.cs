@@ -8,8 +8,8 @@ public class Player : Entity
     private float jumpTime;
     private bool isJumpo;
 
-    [Header("Sound")]
-    public AudioSource onLand;
+	[Header("Sound")]
+	[SerializeField]private AudioClip landSound;
 
 	public override int HP { get; protected set; }
 
@@ -79,8 +79,8 @@ public class Player : Entity
             isJumpo = false;
 
             // Onland Sound
-            onLand.pitch = Random.Range(1.0f, 1.5f);
-            onLand.Play();
+            audioSrc.pitch = Random.Range(1.0f, 1.5f);
+            //audioSrc.PlayOneShot(landSound);
         }
     }
 
