@@ -9,9 +9,10 @@ public class Spider : Enemy
 	// ** Sound
 	[Header("SoundFX")]
 	public AudioSource walk;
-    public AudioSource jump; // ** not implemented
+    public AudioSource jump;
+    public AudioSource alert;
 
-	private float idleStopTime, idleWalkTime;
+    private float idleStopTime, idleWalkTime;
 	private float timeOfIdleStop, timeOfIdleWalk;
 	private float jumpSpeed, jumpCooldownTime, timeOfJumpCooldown;
 
@@ -96,7 +97,7 @@ public class Spider : Enemy
 				// the sound should maybe loop too, and be shorter?
 				if (!walk.isPlaying)
 				{
-					walk.pitch = Random.Range(0.75f, 2.0f);
+					walk.pitch = Random.Range(2.0f, 4.0f);
                     walk.volume = Random.Range(1.50f, 2.0f);
                     walk.Play();
 				}
@@ -118,8 +119,10 @@ public class Spider : Enemy
 	{
 		base.OnPlayerSpotted();
 
-		// Screech here
-	}
+        // **Sound Screech here
+        alert.pitch = Random.Range(0.75f, 1.5f);
+        alert.Play();
+    }
 
 	protected override void WhileTargetingPlayer()
 	{
@@ -159,7 +162,7 @@ public class Spider : Enemy
 			jumpSpeed);
 
         // Jump Sound
-        jump.pitch = Random.Range(1.0f, 1.5f);
+        jump.pitch = Random.Range(2.0f, 2.5f);
         jump.Play();
 	}
 
