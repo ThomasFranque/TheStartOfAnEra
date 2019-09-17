@@ -54,7 +54,7 @@ public class Spider : Enemy
 		timeOfIdleStop = 3.0f;
 		timeOfIdleWalk = 5.0f;
 
-		maxSpeed = 100;
+		maxSpeed = 85.0f;
 		jumpSpeed = 230;
 		jumpCooldownTime = 2.0f;
 		damage = 15;
