@@ -1239,7 +1239,7 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1001 &2073165725
+--- !u!1001 &1926247900
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1251,25 +1251,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spider
       objectReference: {fileID: 0}
-    - target: {fileID: 2571500510322548207, guid: 615d4e8d0c482434486c10a4afb4d044,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2571500510322548207, guid: 615d4e8d0c482434486c10a4afb4d044,
-        type: 3}
-      propertyPath: m_TagString
-      value: Enemy
-      objectReference: {fileID: 0}
     - target: {fileID: 2571500510322548200, guid: 615d4e8d0c482434486c10a4afb4d044,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.2
+      value: 109.5
       objectReference: {fileID: 0}
     - target: {fileID: 2571500510322548200, guid: 615d4e8d0c482434486c10a4afb4d044,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -61.5
+      value: -60.5
       objectReference: {fileID: 0}
     - target: {fileID: 2571500510322548200, guid: 615d4e8d0c482434486c10a4afb4d044,
         type: 3}
@@ -1314,21 +1304,6 @@ PrefabInstance:
     - target: {fileID: 2571500510322548200, guid: 615d4e8d0c482434486c10a4afb4d044,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2571500509361588926, guid: 615d4e8d0c482434486c10a4afb4d044,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2571500509561082645, guid: 615d4e8d0c482434486c10a4afb4d044,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2571500510322548204, guid: 615d4e8d0c482434486c10a4afb4d044,
-        type: 3}
-      propertyPath: sightableLayers.m_Bits
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
