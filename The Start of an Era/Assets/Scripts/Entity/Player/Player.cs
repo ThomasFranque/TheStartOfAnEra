@@ -3,41 +3,51 @@ using UnityEngine;
 
 public class Player : Entity
 {
-    //Player variables
-    [SerializeField] private float jumpSpeed;
-    private float timeOfJump;
-    private float jumpTime;
-    private int baseDmg;
+    // Player variables
+    [SerializeField]
+    protected float jumpSpeed, heavyTimer = default;
+
+    private float timeOfJump, jumpTime, lightVelocity, heavyVelocity;
+    private int baseDmg, runeDmg;
     private bool isJumpo;
-    [SerializeField] protected LightAttack LightAttack;
-    [SerializeField] protected HeavyAttack HeavyAttack;
+    [SerializeField] protected LightAttack LightAttack = default;
+    [SerializeField] protected HeavyAttack HeavyAttack = default;
 
-
-
-    private int runeDmg;
     [Header("Sound")]
-	[SerializeField]private AudioClip landSound;
+	[SerializeField]private AudioClip landSound = default;
 
-
+    // Player properties
 	public override int HP { get; protected set; }
-
-    public int ActualDamage { get; private set; }
-
-    protected override void Start()
+    public int ActualDamage
     {
-        base.Start();
+        get
+        {
+            return ActualDamage = baseDmg + runeDmg;
+
+        }
+
+        private set
+        {
+
+        }
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        HP = 100;
         timeOfJump = -1500.0f;
         jumpTime = 0.5f;
         isJumpo = false;
         baseDmg = 6;
         runeDmg = 1;
+        lightVelocity = 25.0f;
     }
 
     protected void Update()
     {
         Move();
         Attack();
-        StrenghtCounter();
 
         //if(HP <= 0)
         //{
@@ -108,10 +118,11 @@ public class Player : Entity
         }
     }
 
-    protected override void OnHit(int damage, Vector3 hitDirection, float knockBackSpeed)
+    protected override void OnHit(
+        int damage, Vector3 hitDirection, float knockBackSpeed)
     {
         HP -= damage;
-        rb.velocity = hitDirection;
+        rb.velocity = hitDirection * knockBackSpeed;
         Debug.Log($"Player's HP: {HP}");
     }
 
@@ -119,19 +130,17 @@ public class Player : Entity
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            movement = movement * lightVelocity;
             LightAttack.FindTargets();
         }
 
         else if(Input.GetKeyDown(KeyCode.X))
         {
-            HeavyAttack.FindTargets();
+            if((Time.time - heavyTimer) < 0.0f)
+            {
+                HeavyAttack.FindTargets();
+            }
         }
-    }
-
-    protected int StrenghtCounter()
-    {
-        //Adapt this method after runes are created to calculate how much player can hit enemies with
-        return ActualDamage = baseDmg + runeDmg;
     }
 
 

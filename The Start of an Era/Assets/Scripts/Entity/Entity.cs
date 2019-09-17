@@ -4,9 +4,9 @@ public abstract class Entity : MonoBehaviour
 {
 	[Header ("--- Entity Properties ---")]
 	// Entity variables
-	[SerializeField] protected float maxSpeed;
+	[SerializeField] protected float maxSpeed = default;
     [Tooltip("Layers where player can stand and jump")]
-    [SerializeField] protected LayerMask groundLayers;
+    [SerializeField] protected LayerMask groundLayers = default;
     protected float normalGrav, knockBackSpeed;
 	protected Vector3 colliderOffset, Vector3, hitDirection;
 
@@ -29,7 +29,7 @@ public abstract class Entity : MonoBehaviour
         }
     }
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         audioSrc = GetComponent<AudioSource>();

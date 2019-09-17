@@ -3,7 +3,7 @@
 public class HeavyAttack : MonoBehaviour
 {
     //Normal att. variables
-    [SerializeField] private float lightKnockback;
+    [SerializeField] private float heavyKnockback = default;
     protected Player playerScript;
     private Vector2 meleeRange;
 
@@ -39,7 +39,7 @@ public class HeavyAttack : MonoBehaviour
             hitDirection.y = 1.25f;
 
             enemyScript.Hit(
-                playerScript.ActualDamage + 3, hitDirection, lightKnockback);
+                playerScript.ActualDamage + 3, hitDirection, heavyKnockback);
 
 
             hitDirection.y = 200f;

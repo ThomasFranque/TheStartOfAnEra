@@ -57,7 +57,7 @@ public class Spider : Enemy
 		maxSpeed = 100;
 		jumpSpeed = 230;
 		jumpCooldownTime = 2.0f;
-		damage = 15;
+		damage = 1;
 		HP = 10;
 	}
 
@@ -119,7 +119,7 @@ public class Spider : Enemy
     protected override void OnHit(int damage, Vector3 hitDirection, float knockBackSpeed)
     {
         HP -= damage;
-        rb.velocity = hitDirection;
+        rb.velocity = knockBackSpeed * hitDirection;
         Debug.Log($"Spider HP: {HP}");
     }
 

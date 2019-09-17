@@ -9,7 +9,7 @@ public abstract class Enemy : Entity
 	private LayerMask sightableLayers;
 
 	[SerializeField]
-	private GameObject sightStart, sightEnd;
+	private GameObject sightStart, sightEnd = default;
 
 	[Tooltip ("The time (in seconds) that the enemy will keep interest on the " +
 		"player after it has left sight range.")]
@@ -49,9 +49,9 @@ public abstract class Enemy : Entity
 	}
 
 	// Start is called before the first frame update
-	protected override void Start()
+	protected override void Awake()
 	{
-		base.Start();
+		base.Awake();
 
 		spottedTime = .0f;
 		targetingPlayer = false;

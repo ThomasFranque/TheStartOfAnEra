@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rune : Interactable
+public abstract class Rune : Interactable
 {
+    //Rune variables
+    protected float normalDmg, elementalDmg;
+
 
 	// Start is called before the first frame update
 	protected override void Start()

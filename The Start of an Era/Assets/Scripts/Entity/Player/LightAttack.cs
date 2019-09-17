@@ -3,7 +3,7 @@
 public class LightAttack : MonoBehaviour
 {
     //Normal att. variables
-    [SerializeField] private float heavyKnockback;
+    [SerializeField] private float lightKnockback = default;
     protected Player playerScript;
     private Vector2 meleeRange;
 
@@ -35,10 +35,11 @@ public class LightAttack : MonoBehaviour
                 (enemyScript.transform.position -
                 transform.position).normalized;
 
-            hitDirection.y = 100f;
+            hitDirection.y = 250.0f;
+            hitDirection.z = 0.0f;
 
             enemyScript.Hit(
-                playerScript.ActualDamage, hitDirection, heavyKnockback);
+                playerScript.ActualDamage, hitDirection, lightKnockback);
         }
     }
 
