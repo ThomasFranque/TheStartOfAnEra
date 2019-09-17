@@ -45,9 +45,9 @@ public class Spider : Enemy
 	}
 
 	// Start is called before the first frame update
-	protected override void Start()
+	protected override void Awake()
 	{
-		base.Start();
+		base.Awake();
 
 		// Starts idle
 		idleStopTime = Time.time;
