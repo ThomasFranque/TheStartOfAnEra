@@ -1,25 +1,55 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : Entity
 {
-    // Properties//
-    // Jump height
-    [SerializeField] private float jumpHeight;
+    // Player variables
+    [SerializeField]
+    protected float jumpSpeed = default, heavyTimer = default;
 
+    [SerializeField] protected LightAttack LightAttack = default;
+    [SerializeField] protected HeavyAttack HeavyAttack = default;
+
+    [Header("Sound")]
+    [SerializeField] protected AudioClip landSound = default;
+
+    private float timeOfJump, jumpTime, lightVelocity, heavyVelocity;
+    private int baseDmg, runeDmg;
+    private bool isJumpo;
+
+    // Player properties
 	public override int HP { get; protected set; }
-
-	protected override void Start()
+    public int ActualDamage
     {
-        base.Start();
-		// Remove after inserting pivots on sprites
-		colliderOffset = new Vector3(transform.position.x, transform.position.y - 10, transform.position.z);
+        get => ActualDamage = baseDmg + runeDmg;
+
+        private set
+        {
+
+        }
     }
 
-    private void Update()
+    protected override void Awake()
+    {
+        base.Awake();
+        HP = 100;
+        timeOfJump = -1500.0f;
+        jumpTime = 0.5f;
+        isJumpo = false;
+        baseDmg = 6;
+        runeDmg = 1;
+        lightVelocity = 25.0f;
+    }
+
+    protected void Update()
     {
         Move();
+        Attack();
+
+        //if(HP <= 0)
+        //{
+        //    Destroy(gameObject);
+        //}
     }
 
     // Method for player movement
@@ -48,23 +78,84 @@ public class Player : Entity
     }
 
     // Method for jumping
-    private void Jump()
+    protected override void Jump()
     {
         // Jump only if player is on the ground
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
-            Debug.Log(IsGrounded);
-
-            if (IsGrounded)
+            if (IsGrounded && !isJumpo)
             {
-                movement.y = jumpHeight;
+                rb.gravityScale = normalGrav / 3;
+                movement.y = jumpSpeed;
+                timeOfJump = Time.time;
+                isJumpo = true;
+            }
+
+            else if ((Time.time - timeOfJump) < jumpTime && isJumpo)
+            {
+                rb.gravityScale = normalGrav / 3;
+            }
+
+            else
+            {
+                rb.gravityScale = normalGrav;
+            }
+        }
+
+        // Onland
+        else
+        {
+            timeOfJump = -1500.0f;
+            rb.gravityScale = normalGrav;
+            isJumpo = false;
+
+            // Onland Sound
+            audioSrc.pitch = Random.Range(1.0f, 1.5f);
+            //audioSrc.PlayOneShot(landSound);
+        }
+    }
+
+    protected override void OnHit(
+        int damage, Vector3 hitDirection, float knockBackSpeed)
+    {
+        knockbackTimer = 0.5f;
+
+        HP -= damage;
+        rb.velocity = knockBackSpeed * hitDirection;
+        Debug.Log($"Player's HP: {HP}");
+    }
+
+    protected override void Attack()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            movement = movement * lightVelocity;
+            LightAttack.FindTargets();
+        }
+
+        else if(Input.GetKeyDown(KeyCode.X))
+        {
+            if((Time.time - heavyTimer) < 0.0f)
+            {
+                HeavyAttack.FindTargets();
             }
         }
     }
 
-	protected override void OnHit(int damage)
-	{
-		HP -= damage;
-	}
-	
+
+    private void OnLand()
+    {
+
+    }
+
+    //INSERT INTERACTION METHOD FOR PLAYER TOWARDS WORLD
+    //private void Interaction()
+    //{
+
+    //}
+
+    protected IEnumerator CWalkingAnim()
+    {
+        yield return new WaitForSeconds(0.0f);
+    }	
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Toroidal : MonoBehaviour
 {
 	[SerializeField]
-	private BoxCollider2D limit;
+	private BoxCollider2D limit = default;
 
 	private float horizontalMin, horizontalMax, verticalMin, verticalMax;
 
@@ -37,7 +37,7 @@ public class Toroidal : MonoBehaviour
 			new Vector3(
 				-col.transform.position.x + 
 				(col.gameObject.GetComponent<BoxCollider2D>().size.x * 
-				Mathf.Sign(col.transform.position.x) * 103), 
+				Mathf.Sign(col.transform.position.x) * col.gameObject.transform.localScale.x), 
 				col.transform.position.y, 
 				col.transform.position.z);
 	}

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class Enemy : Entity
 {
@@ -8,30 +6,31 @@ public abstract class Enemy : Entity
 
 	[Header ("--- Enemy Properties ---")]
 	[SerializeField]
-	private LayerMask sightableLayers;
+	private LayerMask sightableLayers = default;
 
 	[SerializeField]
-	private GameObject sightStart, sightEnd;
+	private GameObject sightStart = default, sightEnd = default;
 
 	[Tooltip ("The time (in seconds) that the enemy will keep interest on the " +
 		"player after it has left sight range.")]
 	[SerializeField]
 	[Range (1, 60)]
-	protected float timeOfInterest;
+	protected float timeOfInterest = default;
 
 	[SerializeField]
-	private bool drawLineOfSight;
+	private bool drawLineOfSight = default;
 
 	//////////////////////////////////////////////////////////////
 
 	protected RaycastHit2D spottedPlayer;
 	protected Player targetedPlayerScript;
 	protected bool targetingPlayer;
-	
+	protected int damage;
+
 	private float spottedTime;
 
 	// Check for the player in sightline
-	protected bool IsPlayerSpotted
+	protected bool IsPlayerEyeSight
 	{
 		get
 		{
@@ -44,10 +43,15 @@ public abstract class Enemy : Entity
 		}
 	}
 
-	// Start is called before the first frame update
-	protected override void Start()
+	protected bool IsTargeting
 	{
-		base.Start();
+		get => targetedPlayerScript != null;
+	}
+
+	// Start is called before the first frame update
+	protected override void Awake()
+	{
+		base.Awake();
 
 		spottedTime = .0f;
 		targetingPlayer = false;
@@ -70,15 +74,17 @@ public abstract class Enemy : Entity
 		if (targetedPlayerScript == null)
 		{
 			// Player was spotted
-			if (IsPlayerSpotted)
+			if (IsPlayerEyeSight)
 				OnPlayerSpotted();
+			else
+				WhileIdle();
 		}
 		// Interest time countdown
 		else if (spottedTime + timeOfInterest <= Time.time)
 			OnLooseInterest();
 
 		// While the player is in line of sight
-		if (IsPlayerSpotted)
+		if (IsPlayerEyeSight)
 			WhilePlayerInLineOfSight();
 
 		// While the player is being targeted
@@ -86,10 +92,13 @@ public abstract class Enemy : Entity
 			WhileTargetingPlayer();
 	}
 
-	protected void HitPlayer(int damage)
-	{
-		targetedPlayerScript.Hit(damage);
+	protected void HitPlayer
+        (int damage, Vector3 hitDirection, float knockBackSpeed)
+    {
+		targetedPlayerScript.Hit(damage, hitDirection, knockBackSpeed);
 	}
+
+	protected abstract void WhileIdle();
 
 	protected virtual void OnPlayerSpotted()
 	{
@@ -113,4 +122,19 @@ public abstract class Enemy : Entity
 	}
 
 	protected abstract void WhileTargetingPlayer();
+
+	protected virtual void OnPlayerCollision(GameObject obj)
+	{
+		obj.GetComponent<Entity>().Hit(damage, hitDirection, knockBackSpeed);
+	}
+
+	private void OnCollisionEnter2D(Collision2D col)
+	{
+		switch (col.gameObject.tag)
+		{
+			case "Player":
+				OnPlayerCollision(col.gameObject);
+				break;
+		}
+	}
 }
