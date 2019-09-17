@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class Enemy : Entity
 {
@@ -11,7 +9,7 @@ public abstract class Enemy : Entity
 	private LayerMask sightableLayers;
 
 	[SerializeField]
-	private GameObject sightStart, sightEnd;
+	private GameObject sightStart, sightEnd = default;
 
 	[Tooltip ("The time (in seconds) that the enemy will keep interest on the " +
 		"player after it has left sight range.")]
@@ -51,9 +49,9 @@ public abstract class Enemy : Entity
 	}
 
 	// Start is called before the first frame update
-	protected override void Start()
+	protected override void Awake()
 	{
-		base.Start();
+		base.Awake();
 
 		spottedTime = .0f;
 		targetingPlayer = false;
@@ -94,9 +92,10 @@ public abstract class Enemy : Entity
 			WhileTargetingPlayer();
 	}
 
-	protected void HitPlayer(int damage)
-	{
-		targetedPlayerScript.Hit(damage);
+	protected void HitPlayer
+        (int damage, Vector3 hitDirection, float knockBackSpeed)
+    {
+		targetedPlayerScript.Hit(damage, hitDirection, knockBackSpeed);
 	}
 
 	protected abstract void WhileIdle();
@@ -126,7 +125,7 @@ public abstract class Enemy : Entity
 
 	protected virtual void OnPlayerCollision(GameObject obj)
 	{
-		obj.GetComponent<Entity>().Hit(damage);
+		obj.GetComponent<Entity>().Hit(damage, hitDirection, knockBackSpeed);
 	}
 
 	private void OnCollisionEnter2D(Collision2D col)

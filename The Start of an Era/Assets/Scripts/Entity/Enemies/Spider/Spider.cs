@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Spider : Enemy
 {
-	public override int HP { get; protected set; }
+    public override int HP { get; protected set; }
 
 	// ** Sound
 	[Header("SoundFX")]
@@ -45,9 +45,9 @@ public class Spider : Enemy
 	}
 
 	// Start is called before the first frame update
-	protected override void Start()
+	protected override void Awake()
 	{
-		base.Start();
+		base.Awake();
 
 		// Starts idle
 		idleStopTime = Time.time;
@@ -57,17 +57,22 @@ public class Spider : Enemy
 		maxSpeed = 85.0f;
 		jumpSpeed = 230;
 		jumpCooldownTime = 2.0f;
-		damage = 15;
-		HP = 1;
+		damage = 1;
+		HP = 10;
 	}
 
-	// Update is called once per frame
-	protected override void Update()
-	{
-		base.Update();
-	}
+    // Update is called once per frame
+    protected override void Update()
+    {
+        base.Update();
 
-	protected override void Move()
+        //if(HP <= 0)
+        //{
+        //    Destroy(gameObject);
+        //}
+    }
+
+    protected override void Move()
 	{
 		// Blablabla playerScript.position move to that, kill etc
 
@@ -111,7 +116,14 @@ public class Spider : Enemy
 		#endregion
 	}
 
-	protected override void WhileIdle()
+    protected override void OnHit(int damage, Vector3 hitDirection, float knockBackSpeed)
+    {
+        HP -= damage;
+        rb.velocity = knockBackSpeed * hitDirection;
+        Debug.Log($"Spider HP: {HP}");
+    }
+
+    protected override void WhileIdle()
 	{
 		Move();
 	}
@@ -147,11 +159,6 @@ public class Spider : Enemy
 		// jump
 		else if (InAttackRange && IsGrounded && !JumpOnCooldown)
 			Jump();
-	}
-
-	protected override void OnHit(int damage)
-	{
-		HP -= damage;
 	}
 
 	protected override void Jump()

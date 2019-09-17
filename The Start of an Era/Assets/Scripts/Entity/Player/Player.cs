@@ -1,29 +1,58 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Player : Entity
 {
-    //Player variables
-    [SerializeField] private float jumpSpeed;
-    private float timeOfJump;
-    private float jumpTime;
+    // Player variables
+    [SerializeField]
+    protected float jumpSpeed, heavyTimer = default;
+
+    private float timeOfJump, jumpTime, lightVelocity, heavyVelocity;
+    private int baseDmg, runeDmg;
     private bool isJumpo;
+    [SerializeField] protected LightAttack LightAttack = default;
+    [SerializeField] protected HeavyAttack HeavyAttack = default;
 
-	[Header("Sound")]
-	[SerializeField]private AudioClip landSound;
+    [Header("Sound")]
+	[SerializeField]private AudioClip landSound = default;
 
+    // Player properties
 	public override int HP { get; protected set; }
-
-	protected override void Start()
+    public int ActualDamage
     {
-        base.Start();
+        get
+        {
+            return ActualDamage = baseDmg + runeDmg;
+
+        }
+
+        private set
+        {
+
+        }
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        HP = 100;
         timeOfJump = -1500.0f;
-        jumpTime = 0.15f;
+        jumpTime = 0.5f;
         isJumpo = false;
+        baseDmg = 6;
+        runeDmg = 1;
+        lightVelocity = 25.0f;
     }
 
     protected void Update()
     {
         Move();
+        Attack();
+
+        //if(HP <= 0)
+        //{
+        //    Destroy(gameObject);
+        //}
     }
 
     // Method for player movement
@@ -57,7 +86,6 @@ public class Player : Entity
         // Jump only if player is on the ground
         if (Input.GetKey(KeyCode.Space))
         {
-
             if (IsGrounded && !isJumpo)
             {
                 rb.gravityScale = normalGrav / 3;
@@ -70,7 +98,13 @@ public class Player : Entity
             {
                 rb.gravityScale = normalGrav / 3;
             }
+
+            else
+            {
+                rb.gravityScale = normalGrav;
+            }
         }
+
         // Onland
         else
         {
@@ -84,10 +118,31 @@ public class Player : Entity
         }
     }
 
-    protected override void OnHit(int damage)
-	{
-		HP -= damage;
-	}
+    protected override void OnHit(
+        int damage, Vector3 hitDirection, float knockBackSpeed)
+    {
+        HP -= damage;
+        rb.velocity = hitDirection * knockBackSpeed;
+        Debug.Log($"Player's HP: {HP}");
+    }
+
+    protected override void Attack()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            movement = movement * lightVelocity;
+            LightAttack.FindTargets();
+        }
+
+        else if(Input.GetKeyDown(KeyCode.X))
+        {
+            if((Time.time - heavyTimer) < 0.0f)
+            {
+                HeavyAttack.FindTargets();
+            }
+        }
+    }
+
 
     private void OnLand()
     {
@@ -99,5 +154,9 @@ public class Player : Entity
     //{
 
     //}
-	
+
+    protected IEnumerator CWalkingAnim()
+    {
+        yield return new WaitForSeconds(0.0f);
+    }	
 }
