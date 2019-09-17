@@ -6,6 +6,7 @@ public abstract class Rune : Interactable
 {
     //Rune variables
     protected float normalDmg, elementalDmg;
+    protected bool isDiscover, isEquipped;
 
 
 	// Start is called before the first frame update
@@ -19,6 +20,7 @@ public abstract class Rune : Interactable
     {
 
 	}
+
 	protected override void OnPickup()
 	{
 		throw new System.NotImplementedException();

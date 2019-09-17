@@ -5,7 +5,7 @@ using UnityEngine;
 public class Toroidal : MonoBehaviour
 {
 	[SerializeField]
-	private BoxCollider2D limit;
+	private BoxCollider2D limit = default;
 
 	private float horizontalMin, horizontalMax, verticalMin, verticalMax;
 

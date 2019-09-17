@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa9ba71a851cb9c45bc80df5352597d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightKnockback: 0
+  heavyKnockback: 0
 --- !u!1 &6138319587455394846
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,6 +174,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 98304
   jumpSpeed: 210
+  heavyTimer: 0
   LightAttack: {fileID: 7533349795957399829}
   HeavyAttack: {fileID: 7208913053007596635}
   landSound: {fileID: 8300000, guid: c8ec4ef0458ccc846a9db6114baf2153, type: 3}
@@ -345,4 +346,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1830894e70fb62348aa6b6ce9c2513e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heavyKnockback: 0
+  lightKnockback: 70

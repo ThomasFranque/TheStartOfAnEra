@@ -44,7 +44,6 @@ public class Spider : Enemy
 		get => Time.time < idleStopTime + timeOfIdleStop && Time.time > idleStopTime;
 	}
 
-	// Start is called before the first frame update
 	protected override void Awake()
 	{
 		base.Awake();
@@ -74,52 +73,59 @@ public class Spider : Enemy
 
     protected override void Move()
 	{
-		// Blablabla playerScript.position move to that, kill etc
+        // Blablabla playerScript.position move to that, kill etc
 
-		#region Idle Movement
-		// check if Stopped
-		if (!IsIdle)
-		{
-			if (Time.time > idleStopTime + timeOfIdleStop)
-			{
-				// This will run Once before starting walking
-				idleStopTime = Time.time + timeOfIdleWalk;
+        if (!Knockedback)
+        {
+            #region Idle Movement
+            // check if Stopped
+            if (!IsIdle)
+            {
+                if (Time.time > idleStopTime + timeOfIdleStop)
+                {
+                    // This will run Once before starting walking
+                    idleStopTime = Time.time + timeOfIdleWalk;
 
-				// Set walking direction
-				walkDirection = Random.Range(0, 101);
-				walkDirection = walkDirection <= 50 ? 1 : -1;
-			}
-			else
-			{
-				// Is walking
+                    // Set walking direction
+                    walkDirection = Random.Range(0, 101);
+                    walkDirection = walkDirection <= 50 ? 1 : -1;
+                }
+                else
+                {
+                    // Is walking
 
-				////
-				//if (walk.mute)
-				//	StartCoroutine(WalkCoroutine());
-				////
+                    ////
+                    //if (walk.mute)
+                    //	StartCoroutine(WalkCoroutine());
+                    ////
 
-				// My solution, maybe works better?
-				// the sound should maybe loop too, and be shorter?
-				if (!audioSrc.isPlaying)
-				{
-					audioSrc.pitch = Random.Range(2.0f, 4.0f);
-					//audioSrc.volume = Random.Range(1.50f, 2.0f);
-					audioSrc.PlayOneShot(walk);
+                    // My solution, maybe works better?
+                    // the sound should maybe loop too, and be shorter?
+                    if (!audioSrc.isPlaying)
+                    {
+                        audioSrc.pitch = Random.Range(2.0f, 4.0f);
+                        //audioSrc.volume = Random.Range(1.50f, 2.0f);
+                        audioSrc.PlayOneShot(walk);
 
-				}
+                    }
 
-				movement = rb.velocity;
-				movement = new Vector2(0.5f * maxSpeed * walkDirection, movement.y);
-				rb.velocity = movement;
-			}
-		}
-		#endregion
+                    movement = rb.velocity;
+                    movement = new Vector2(0.5f * maxSpeed * walkDirection, movement.y);
+                    rb.velocity = movement;
+                }
+            }
+            #endregion 
+        }
 	}
 
-    protected override void OnHit(int damage, Vector3 hitDirection, float knockBackSpeed)
+    protected override void OnHit(
+        int damage, Vector3 hitDirection, float knockBackSpeed)
     {
+        knockbackTimer = 1.5f;
+
         HP -= damage;
         rb.velocity = knockBackSpeed * hitDirection;
+
         Debug.Log($"Spider HP: {HP}");
     }
 

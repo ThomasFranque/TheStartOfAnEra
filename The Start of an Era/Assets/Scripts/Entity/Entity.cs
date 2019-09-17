@@ -7,7 +7,7 @@ public abstract class Entity : MonoBehaviour
 	[SerializeField] protected float maxSpeed = default;
     [Tooltip("Layers where player can stand and jump")]
     [SerializeField] protected LayerMask groundLayers = default;
-    protected float normalGrav, knockBackSpeed;
+    protected float normalGrav, knockBackSpeed, knockbackTimer;
 	protected Vector3 colliderOffset, Vector3, hitDirection;
 
     protected Vector2 movement;
@@ -34,6 +34,19 @@ public abstract class Entity : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         audioSrc = GetComponent<AudioSource>();
         normalGrav = 120.0f;
+    }
+
+    protected bool Knockedback
+    {
+        get
+        {
+            if (knockbackTimer > 0.0f)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 
     public void Hit(int damage, Vector3 hitDirection, float knockBackSpeed)

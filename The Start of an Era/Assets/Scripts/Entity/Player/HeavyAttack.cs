@@ -36,13 +36,11 @@ public class HeavyAttack : MonoBehaviour
                 (enemyScript.transform.position -
                 transform.position).normalized;
 
-            hitDirection.y = 1.25f;
+            hitDirection.y = 10.0f;
+            hitDirection.z = 0.0f;
 
             enemyScript.Hit(
                 playerScript.ActualDamage + 3, hitDirection, heavyKnockback);
-
-
-            hitDirection.y = 200f;
         }
     }
 

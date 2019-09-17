@@ -5,26 +5,23 @@ public class Player : Entity
 {
     // Player variables
     [SerializeField]
-    protected float jumpSpeed, heavyTimer = default;
+    protected float jumpSpeed = default, heavyTimer = default;
 
-    private float timeOfJump, jumpTime, lightVelocity, heavyVelocity;
-    private int baseDmg, runeDmg;
-    private bool isJumpo;
     [SerializeField] protected LightAttack LightAttack = default;
     [SerializeField] protected HeavyAttack HeavyAttack = default;
 
     [Header("Sound")]
-	[SerializeField]private AudioClip landSound = default;
+    [SerializeField] protected AudioClip landSound = default;
+
+    private float timeOfJump, jumpTime, lightVelocity, heavyVelocity;
+    private int baseDmg, runeDmg;
+    private bool isJumpo;
 
     // Player properties
 	public override int HP { get; protected set; }
     public int ActualDamage
     {
-        get
-        {
-            return ActualDamage = baseDmg + runeDmg;
-
-        }
+        get => ActualDamage = baseDmg + runeDmg;
 
         private set
         {
@@ -121,8 +118,10 @@ public class Player : Entity
     protected override void OnHit(
         int damage, Vector3 hitDirection, float knockBackSpeed)
     {
+        knockbackTimer = 0.5f;
+
         HP -= damage;
-        rb.velocity = hitDirection * knockBackSpeed;
+        rb.velocity = knockBackSpeed * hitDirection;
         Debug.Log($"Player's HP: {HP}");
     }
 
