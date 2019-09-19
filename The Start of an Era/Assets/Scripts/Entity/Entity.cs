@@ -4,14 +4,16 @@ public abstract class Entity : MonoBehaviour
 {
 	[Header ("--- Entity Properties ---")]
 	// Entity variables
-	[SerializeField] protected float maxSpeed;
-    [Tooltip ("Layers where player can stand and jump")]
-    [SerializeField] LayerMask groundLayers;
-	protected Vector3 colliderOffset;
-	protected Vector2 movement;
+	[SerializeField] protected float maxSpeed = default;
+    [Tooltip("Layers where player can stand and jump")]
+    [SerializeField] protected LayerMask groundLayers = default;
+    protected float normalGrav, knockBackSpeed;
+	protected Vector3 colliderOffset, Vector3, hitDirection;
+
+    protected Vector2 movement;
 	protected Rigidbody2D rb;
-	protected AudioSource audioSrc;
-	protected float normalGrav;
+    protected AudioSource audioSrc;
+    protected bool canJump;
 
     // Properties//
     public abstract int HP { get; protected set; }
@@ -27,23 +29,30 @@ public abstract class Entity : MonoBehaviour
         }
     }
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-		audioSrc = GetComponent<AudioSource>();
-		normalGrav = 120.0f;
+        audioSrc = GetComponent<AudioSource>();
+        normalGrav = 120.0f;
     }
 
-    public void Hit(int damage)
+    public void Hit(int damage, Vector3 hitDirection, float knockBackSpeed)
 	{
-		OnHit(damage);
+		OnHit(damage, hitDirection, knockBackSpeed);
 	}
 
+    // Method for movement
 	protected abstract void Move();
 	//movement = rb.velocity;
 	//movement = new Vector2(MaxSpeed, 0);
+    
+    // Method for taking damage 
+	protected abstract void OnHit(int damage, Vector3 hitDirection, float knockBackSpeed);
 
-	protected abstract void OnHit(int damage);
-
+    // Method for jump action
     protected abstract void Jump();
+
+    // Virtual method to be used if entity has attack actions
+    protected virtual void Attack()
+    { }
 }
