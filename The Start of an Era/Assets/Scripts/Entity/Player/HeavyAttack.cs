@@ -33,10 +33,10 @@ public class HeavyAttack : MonoBehaviour
 
 
             Vector3 hitDirection =
-                (enemyScript.transform.position -
-                transform.position).normalized;
+                ((enemyScript.transform.position -
+                transform.position).normalized)  * 4.0f;
 
-            hitDirection.y = 10.0f;
+            hitDirection.y = 3.0f;
             hitDirection.z = 0.0f;
 
             enemyScript.Hit(
@@ -44,9 +44,13 @@ public class HeavyAttack : MonoBehaviour
         }
     }
 
+    #region GIZMOS&OTHERS
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = new Color(1.0f, 0.0f, 0.0f, 0.5f);
         Gizmos.DrawCube(transform.position, meleeRange);
     }
+#endif 
+    #endregion
 }

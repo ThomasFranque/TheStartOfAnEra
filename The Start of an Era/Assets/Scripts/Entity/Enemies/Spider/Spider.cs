@@ -53,8 +53,10 @@ public class Spider : Enemy
 		timeOfIdleStop = 3.0f;
 		timeOfIdleWalk = 5.0f;
 
-		maxSpeed = 85.0f;
-		jumpSpeed = 230;
+        //maxSpeed = 85.0f;
+        maxSpeed = 0.0f;
+
+        jumpSpeed = 230;
 		jumpCooldownTime = 2.0f;
 		damage = 1;
 		HP = 10;
@@ -121,12 +123,10 @@ public class Spider : Enemy
     protected override void OnHit(
         int damage, Vector3 hitDirection, float knockBackSpeed)
     {
-        knockbackTimer = 1.5f;
+        knockbackTimer = 3.0f;
 
         HP -= damage;
-        rb.velocity = knockBackSpeed * hitDirection;
-
-        Debug.Log($"Spider HP: {HP}");
+        rb.velocity = hitDirection * knockBackSpeed;
     }
 
     protected override void WhileIdle()
@@ -150,12 +150,16 @@ public class Spider : Enemy
 		if (!InAttackRange)
 		{
 			// Player on the left
-			if (transform.position.x > targetedPlayerScript.transform.position.x + 20.0f)
+			if (
+                transform.position.x >
+                targetedPlayerScript.transform.position.x + 20.0f)
 			{
 				movement = new Vector2(maxSpeed * -1, movement.y);
 			}
 			// Player on the right 
-			else if (transform.position.x < targetedPlayerScript.transform.position.x - 20.0f)
+			else if (
+                transform.position.x <
+                targetedPlayerScript.transform.position.x - 20.0f)
 			{
 				movement = new Vector2(maxSpeed, movement.y);
 			}
@@ -163,7 +167,7 @@ public class Spider : Enemy
 			rb.velocity = movement;
 		}
 		// jump
-		else if (InAttackRange && IsGrounded && !JumpOnCooldown)
+		else if (InAttackRange && IsGrounded && !JumpOnCooldown && !Knockedback)
 			Jump();
 	}
 

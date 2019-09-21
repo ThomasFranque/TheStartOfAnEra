@@ -2,16 +2,17 @@
 
 public abstract class Entity : MonoBehaviour
 {
-	[Header ("--- Entity Properties ---")]
-	// Entity variables
-	[SerializeField] protected float maxSpeed = default;
+    #region Entity_Variables&Properties
+    // Entity variables
+    [Header("--- Entity Properties ---")]
+    [SerializeField] protected float maxSpeed = default;
     [Tooltip("Layers where player can stand and jump")]
     [SerializeField] protected LayerMask groundLayers = default;
     protected float normalGrav, knockBackSpeed, knockbackTimer;
-	protected Vector3 colliderOffset, Vector3, hitDirection;
+    protected Vector3 colliderOffset, Vector3, hitDirection;
 
     protected Vector2 movement;
-	protected Rigidbody2D rb;
+    protected Rigidbody2D rb;
     protected AudioSource audioSrc;
     protected bool canJump;
 
@@ -48,6 +49,7 @@ public abstract class Entity : MonoBehaviour
             return false;
         }
     }
+    #endregion
 
     public void Hit(int damage, Vector3 hitDirection, float knockBackSpeed)
 	{
@@ -56,8 +58,6 @@ public abstract class Entity : MonoBehaviour
 
     // Method for movement
 	protected abstract void Move();
-	//movement = rb.velocity;
-	//movement = new Vector2(MaxSpeed, 0);
     
     // Method for taking damage 
 	protected abstract void OnHit(int damage, Vector3 hitDirection, float knockBackSpeed);
