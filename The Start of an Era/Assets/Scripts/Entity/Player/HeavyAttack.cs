@@ -34,7 +34,7 @@ public class HeavyAttack : MonoBehaviour
 
             Vector3 hitDirection =
                 ((enemyScript.transform.position -
-                transform.position).normalized)  * 4.0f;
+                playerScript.transform.position).normalized)  * 4.0f;
 
             hitDirection.y = 3.0f;
             hitDirection.z = 0.0f;

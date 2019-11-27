@@ -4,24 +4,25 @@ using UnityEngine;
 public class Player : Entity
 {
     // Player variables
-    [SerializeField]
-    protected float jumpSpeed = default;
+    [SerializeField] protected float jumpSpeed = default;
 
+    [Header("Attack transforms")]
     [SerializeField] protected LightAttack LightAttack = default;
     [SerializeField] protected HeavyAttack HeavyAttack = default;
 
     [Header("Sound")]
     [SerializeField] protected AudioClip landSound = default;
 
-    private float timeOfJump, jumpTime, lightVelocity, heavyVelocity, heavyTimer;
-    private int baseDmg, runeDmg;
-    private bool isJumpo;
+    private float _timeOfJump, _jumpTime, _lightVelocity, _heavyVelocity, _heavyTimer;
+    private int _baseDmg, _runeDmg;
+    private bool _isJumpo;
+    private bool _coolDown;
 
     // Player properties
     public override int HP { get; protected set; }
     public int ActualDamage
     {
-        get => ActualDamage = baseDmg + runeDmg;
+        get => ActualDamage = _baseDmg + _runeDmg;
 
         private set
         {
@@ -33,7 +34,7 @@ public class Player : Entity
     {
         get
         {
-            if(heavyTimer < 2.0f)
+            if (_heavyTimer < 2.0f)
             {
                 return true;
             }
@@ -46,20 +47,20 @@ public class Player : Entity
     {
         base.Awake();
         HP = 100;
-        timeOfJump = -1500.0f;
-        jumpTime = 0.5f;
-        isJumpo = false;
-        baseDmg = 6;
-        runeDmg = 1;
-        lightVelocity = 25.0f;
-        heavyTimer = 2.0f;
+        _timeOfJump = -1500.0f;
+        _jumpTime = 0.5f;
+        _isJumpo = false;
+        _baseDmg = 6;
+        _runeDmg = 1;
+        _lightVelocity = 25.0f;
+        _heavyTimer = 2.0f;
     }
 
     protected void Update()
     {
         Move();
         Attack();
-        Debug.Log(heavyTimer);
+        Debug.Log(_heavyTimer);
 
 
         //if(HP <= 0)
@@ -99,15 +100,15 @@ public class Player : Entity
         // Jump only if player is on the ground
         if (Input.GetKey(KeyCode.Space))
         {
-            if (IsGrounded && !isJumpo)
+            if (IsGrounded && !_isJumpo)
             {
                 rb.gravityScale = normalGrav / 3;
                 movement.y = jumpSpeed;
-                timeOfJump = Time.time;
-                isJumpo = true;
+                _timeOfJump = Time.time;
+                _isJumpo = true;
             }
 
-            else if ((Time.time - timeOfJump) < jumpTime && isJumpo)
+            else if ((Time.time - _timeOfJump) < _jumpTime && _isJumpo)
             {
                 rb.gravityScale = normalGrav / 3;
             }
@@ -121,9 +122,9 @@ public class Player : Entity
         // Onland
         else
         {
-            timeOfJump = -1500.0f;
+            _timeOfJump = -1500.0f;
             rb.gravityScale = normalGrav;
-            isJumpo = false;
+            _isJumpo = false;
 
             // Onland Sound
             audioSrc.pitch = Random.Range(1.0f, 1.5f);
@@ -145,7 +146,7 @@ public class Player : Entity
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            movement = movement * lightVelocity;
+            movement *= _lightVelocity;
             LightAttack.FindTargets();
         }
 
@@ -157,18 +158,10 @@ public class Player : Entity
 
                 HeavyAttack.FindTargets();
 
-                heavyTimer = 2.0f;
+                _heavyTimer = 2.0f;
             }
         }
     }
-
-
-
-    private void OnLand()
-    {
-
-    }
-
 
     //INSERT INTERACTION METHOD FOR PLAYER TOWARDS WORLD
     //private void Interaction()
@@ -176,8 +169,14 @@ public class Player : Entity
 
     //}
 
+    // Co-Routines
     protected IEnumerator CWalkingAnim()
     {
         yield return new WaitForSeconds(0.0f);
+    }
+
+    protected IEnumerator CColldown()
+    {
+        yield return new WaitForSeconds(1.5f);
     }
 }
