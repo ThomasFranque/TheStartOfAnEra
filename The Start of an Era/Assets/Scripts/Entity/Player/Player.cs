@@ -59,8 +59,6 @@ public class Player : Entity
     {
         Move();
         Attack();
-        Debug.Log(heavyTimer);
-
 
         //if(HP <= 0)
         //{
