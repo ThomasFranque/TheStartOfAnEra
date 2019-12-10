@@ -1,14 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PortalTeleport : MonoBehaviour
 {
-    void Update()
+    [SerializeField]
+    private Transform _oppositePortal;
+
+    public void OnCollisionEnter2D(Collision2D collision)
     {
-    }
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("COLLIDE"+ collision);
+        if (collision.collider.tag == "Player")
+        {
+            print("Colliding with a portal");
+            collision.collider.transform.position = new Vector3(
+                _oppositePortal.GetComponent<BoxCollider2D>().transform.position.x + 50, 
+                collision.collider.transform.position.y, 
+                collision.collider.transform.position.z);
+        }
     }
 }
