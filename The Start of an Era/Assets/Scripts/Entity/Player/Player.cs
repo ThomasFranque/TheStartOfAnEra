@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class Player : Entity
@@ -14,12 +15,25 @@ public class Player : Entity
     [SerializeField] protected AudioClip landSound = default;
 
     private float _timeOfJump, _jumpTime, _lightVelocity, _heavyVelocity, _heavyTimer;
-    private int _baseDmg, _runeDmg;
-    private bool _isJumpo;
-    private bool _coolDown;
+    private int _baseDmg, _runeDmg, _inventoryIndex;
+    private bool _isJumpo, _coolDown;
+
+    private HP_Potion[] _inventory;
+
 
     // Player properties
+    public bool IsInventoryFull
+    {
+        get
+        {
+            return _inventory.All(x => x != null);
+        }
+    }
+
     public override int HP { get; protected set; }
+
+    public Player Instance { get; private set; }
+
     public int ActualDamage
     {
         get => ActualDamage = _baseDmg + _runeDmg;
@@ -46,7 +60,7 @@ public class Player : Entity
     protected override void Awake()
     {
         base.Awake();
-        HP = 100;
+        HP = 50;
         _timeOfJump = -1500.0f;
         _jumpTime = 0.5f;
         _isJumpo = false;
@@ -54,13 +68,24 @@ public class Player : Entity
         _runeDmg = 1;
         _lightVelocity = 25.0f;
         _heavyTimer = 2.0f;
+        _inventoryIndex = 0;
+        _inventory = new HP_Potion[4];
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+            Instance = this;
+
+        DontDestroyOnLoad(Instance);
     }
 
     protected void Update()
     {
         Move();
         Attack();
-        Debug.Log(_heavyTimer);
+        NavigateInventory();
 
 
         //if(HP <= 0)
@@ -160,6 +185,67 @@ public class Player : Entity
 
                 _heavyTimer = 2.0f;
             }
+        }
+    }
+
+    private void NavigateInventory()
+    {
+        
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            _inventoryIndex += 1;
+
+            // Debug
+            print(_inventoryIndex);
+            print(_inventory[_inventoryIndex]);
+            // End debug
+
+            if (_inventoryIndex >= 3)
+            {
+                _inventoryIndex = 0;
+                print(_inventoryIndex);
+                print(_inventory[_inventoryIndex]);
+
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (_inventory[_inventoryIndex] is HP_Potion)
+            {
+                _inventory[_inventoryIndex].ItemUse();
+                _inventory[_inventoryIndex] = null;
+            }
+        }
+    }
+
+    public void InventoryAdd(HP_Potion item)
+    {
+        for (int i = 0; i < _inventory.Length; i++)
+        {
+            if (_inventory[i] == null)
+            {
+                _inventory[i] = item;
+                break;
+            }
+        }
+    }
+
+    public void Heal(int heal)
+    {
+        print($"Hp before heal: {HP}");
+ 
+        if (HP + heal > 100)
+        {
+            print($"At max health {HP}");
+
+            HP = 100;
+        }
+        else
+        {
+            print($"Hp after heal: {HP}");
+
+            HP += heal;
         }
     }
 
