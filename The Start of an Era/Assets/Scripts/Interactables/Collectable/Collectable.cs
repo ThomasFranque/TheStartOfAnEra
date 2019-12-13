@@ -8,7 +8,7 @@ public abstract class Collectable : Interactable
 
 	[Header ("--- Collectable Properties ---")]
 	[SerializeField]
-	private LayerMask playerLayer;
+	private LayerMask playerLayer = default;
 
 	protected override void Start()
 	{

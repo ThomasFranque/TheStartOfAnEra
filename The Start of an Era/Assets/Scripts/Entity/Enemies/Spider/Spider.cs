@@ -44,7 +44,6 @@ public class Spider : Enemy
 		get => Time.time < idleStopTime + timeOfIdleStop && Time.time > idleStopTime;
 	}
 
-	// Start is called before the first frame update
 	protected override void Awake()
 	{
 		base.Awake();
@@ -54,8 +53,10 @@ public class Spider : Enemy
 		timeOfIdleStop = 3.0f;
 		timeOfIdleWalk = 5.0f;
 
-		maxSpeed = 85.0f;
-		jumpSpeed = 230;
+        //maxSpeed = 85.0f;
+        maxSpeed = 0.0f;
+
+        jumpSpeed = 230;
 		jumpCooldownTime = 2.0f;
 		damage = 1;
 		HP = 10;
@@ -74,53 +75,58 @@ public class Spider : Enemy
 
     protected override void Move()
 	{
-		// Blablabla playerScript.position move to that, kill etc
+        // Blablabla playerScript.position move to that, kill etc
 
-		#region Idle Movement
-		// check if Stopped
-		if (!IsIdle)
-		{
-			if (Time.time > idleStopTime + timeOfIdleStop)
-			{
-				// This will run Once before starting walking
-				idleStopTime = Time.time + timeOfIdleWalk;
+        if (!Knockedback)
+        {
+            #region Idle Movement
+            // check if Stopped
+            if (!IsIdle)
+            {
+                if (Time.time > idleStopTime + timeOfIdleStop)
+                {
+                    // This will run Once before starting walking
+                    idleStopTime = Time.time + timeOfIdleWalk;
 
-				// Set walking direction
-				walkDirection = Random.Range(0, 101);
-				walkDirection = walkDirection <= 50 ? 1 : -1;
-			}
-			else
-			{
-				// Is walking
+                    // Set walking direction
+                    walkDirection = Random.Range(0, 101);
+                    walkDirection = walkDirection <= 50 ? 1 : -1;
+                }
+                else
+                {
+                    // Is walking
 
-				////
-				//if (walk.mute)
-				//	StartCoroutine(WalkCoroutine());
-				////
+                    ////
+                    //if (walk.mute)
+                    //	StartCoroutine(WalkCoroutine());
+                    ////
 
-				// My solution, maybe works better?
-				// the sound should maybe loop too, and be shorter?
-				if (!audioSrc.isPlaying)
-				{
-					audioSrc.pitch = Random.Range(2.0f, 4.0f);
-					//audioSrc.volume = Random.Range(1.50f, 2.0f);
-					audioSrc.PlayOneShot(walk);
+                    // My solution, maybe works better?
+                    // the sound should maybe loop too, and be shorter?
+                    if (!audioSrc.isPlaying)
+                    {
+                        audioSrc.pitch = Random.Range(2.0f, 4.0f);
+                        //audioSrc.volume = Random.Range(1.50f, 2.0f);
+                        audioSrc.PlayOneShot(walk);
 
-				}
+                    }
 
-				movement = rb.velocity;
-				movement = new Vector2(0.5f * maxSpeed * walkDirection, movement.y);
-				rb.velocity = movement;
-			}
-		}
-		#endregion
+                    movement = rb.velocity;
+                    movement = new Vector2(0.5f * maxSpeed * walkDirection, movement.y);
+                    rb.velocity = movement;
+                }
+            }
+            #endregion 
+        }
 	}
 
-    protected override void OnHit(int damage, Vector3 hitDirection, float knockBackSpeed)
+    protected override void OnHit(
+        int damage, Vector3 hitDirection, float knockBackSpeed)
     {
+        knockbackTimer = 3.0f;
+
         HP -= damage;
-        rb.velocity = knockBackSpeed * hitDirection;
-        Debug.Log($"Spider HP: {HP}");
+        rb.velocity = hitDirection * knockBackSpeed;
     }
 
     protected override void WhileIdle()
@@ -144,12 +150,16 @@ public class Spider : Enemy
 		if (!InAttackRange)
 		{
 			// Player on the left
-			if (transform.position.x > targetedPlayerScript.transform.position.x + 20.0f)
+			if (
+                transform.position.x >
+                targetedPlayerScript.transform.position.x + 20.0f)
 			{
 				movement = new Vector2(maxSpeed * -1, movement.y);
 			}
 			// Player on the right 
-			else if (transform.position.x < targetedPlayerScript.transform.position.x - 20.0f)
+			else if (
+                transform.position.x <
+                targetedPlayerScript.transform.position.x - 20.0f)
 			{
 				movement = new Vector2(maxSpeed, movement.y);
 			}
@@ -157,7 +167,7 @@ public class Spider : Enemy
 			rb.velocity = movement;
 		}
 		// jump
-		else if (InAttackRange && IsGrounded && !JumpOnCooldown)
+		else if (InAttackRange && IsGrounded && !JumpOnCooldown && !Knockedback)
 			Jump();
 	}
 

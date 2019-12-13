@@ -6,19 +6,19 @@ public abstract class Enemy : Entity
 
 	[Header ("--- Enemy Properties ---")]
 	[SerializeField]
-	private LayerMask sightableLayers;
+	private LayerMask sightableLayers = default;
 
 	[SerializeField]
-	private GameObject sightStart, sightEnd = default;
+	private GameObject sightStart = default, sightEnd = default;
 
 	[Tooltip ("The time (in seconds) that the enemy will keep interest on the " +
 		"player after it has left sight range.")]
 	[SerializeField]
 	[Range (1, 60)]
-	protected float timeOfInterest;
+	protected float timeOfInterest = default;
 
 	[SerializeField]
-	private bool drawLineOfSight;
+	private bool drawLineOfSight = default;
 
 	//////////////////////////////////////////////////////////////
 

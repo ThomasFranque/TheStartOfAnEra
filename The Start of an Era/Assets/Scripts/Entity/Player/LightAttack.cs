@@ -3,7 +3,7 @@
 public class LightAttack : MonoBehaviour
 {
     //Normal att. variables
-    [SerializeField] private float lightKnockback = default;
+    [SerializeField] protected float lightKnockback = default;
     protected Player playerScript;
     private Vector2 meleeRange;
 
@@ -33,9 +33,9 @@ public class LightAttack : MonoBehaviour
 
             Vector3 hitDirection =
                 (enemyScript.transform.position -
-                transform.position).normalized;
+                transform.position).normalized * 3.5f;
 
-            hitDirection.y = 250.0f;
+            hitDirection.y = 3.0f;
             hitDirection.z = 0.0f;
 
             enemyScript.Hit(
@@ -43,9 +43,11 @@ public class LightAttack : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = new Color(1.0f, 0.0f, 0.0f, 0.5f);
         Gizmos.DrawCube(transform.position, meleeRange);
-    }
+    } 
+#endif
 }

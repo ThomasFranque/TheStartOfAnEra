@@ -5,30 +5,40 @@ public class Player : Entity
 {
     // Player variables
     [SerializeField]
-    protected float jumpSpeed, heavyTimer = default;
+    protected float jumpSpeed = default;
 
-    private float timeOfJump, jumpTime, lightVelocity, heavyVelocity;
-    private int baseDmg, runeDmg;
-    private bool isJumpo;
     [SerializeField] protected LightAttack LightAttack = default;
     [SerializeField] protected HeavyAttack HeavyAttack = default;
 
     [Header("Sound")]
-	[SerializeField]private AudioClip landSound = default;
+    [SerializeField] protected AudioClip landSound = default;
+
+    private float timeOfJump, jumpTime, lightVelocity, heavyVelocity, heavyTimer;
+    private int baseDmg, runeDmg;
+    private bool isJumpo;
 
     // Player properties
-	public override int HP { get; protected set; }
+    public override int HP { get; protected set; }
     public int ActualDamage
     {
-        get
-        {
-            return ActualDamage = baseDmg + runeDmg;
-
-        }
+        get => ActualDamage = baseDmg + runeDmg;
 
         private set
         {
 
+        }
+    }
+
+    public bool Cooldown
+    {
+        get
+        {
+            if(heavyTimer < 2.0f)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 
@@ -42,12 +52,15 @@ public class Player : Entity
         baseDmg = 6;
         runeDmg = 1;
         lightVelocity = 25.0f;
+        heavyTimer = 2.0f;
     }
 
     protected void Update()
     {
         Move();
         Attack();
+        Debug.Log(heavyTimer);
+
 
         //if(HP <= 0)
         //{
@@ -121,8 +134,10 @@ public class Player : Entity
     protected override void OnHit(
         int damage, Vector3 hitDirection, float knockBackSpeed)
     {
+        knockbackTimer = 0.5f;
+
         HP -= damage;
-        rb.velocity = hitDirection * knockBackSpeed;
+        rb.velocity = knockBackSpeed * hitDirection;
         Debug.Log($"Player's HP: {HP}");
     }
 
@@ -134,20 +149,26 @@ public class Player : Entity
             LightAttack.FindTargets();
         }
 
-        else if(Input.GetKeyDown(KeyCode.X))
+        else if (!Cooldown)
         {
-            if((Time.time - heavyTimer) < 0.0f)
+            if (Input.GetKeyDown(KeyCode.X))
             {
+                Debug.Log("Heavy atk");
+
                 HeavyAttack.FindTargets();
+
+                heavyTimer = 2.0f;
             }
         }
     }
+
 
 
     private void OnLand()
     {
 
     }
+
 
     //INSERT INTERACTION METHOD FOR PLAYER TOWARDS WORLD
     //private void Interaction()
@@ -158,5 +179,5 @@ public class Player : Entity
     protected IEnumerator CWalkingAnim()
     {
         yield return new WaitForSeconds(0.0f);
-    }	
+    }
 }
