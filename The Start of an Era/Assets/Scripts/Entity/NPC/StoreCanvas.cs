@@ -8,14 +8,22 @@ public class StoreCanvas : MonoBehaviour
 {
     // Grid layout of the store
     [SerializeField]
-    private RectTransform _gridLayout;
+    private RectTransform _gridLayout = null;
     // Item prefab of what to instantiate with component StoreItemUI
     [SerializeField]
-    private StoreItemUI _itemPrefab;
+    private StoreItemUI _itemPrefab = null;
 
-    public void UpdateStoreUI(Action<Transform, StoreItemUI> instantiation)
+    private IEnumerable<StoreItemUI> _activeItems;
+
+    public void UpdateStoreUI
+        (Func<Transform, StoreItemUI, IEnumerable<StoreItemUI>> instantiation)
     {
-        instantiation(_gridLayout, _itemPrefab);
+        _activeItems = instantiation(_gridLayout, _itemPrefab);
+    }
+
+    public IEnumerable<StoreItemUI> ActiveItems()
+    {
+        return _activeItems;
     }
 
     private void OnDisable()
@@ -27,5 +35,7 @@ public class StoreCanvas : MonoBehaviour
                 Destroy(_gridLayout.GetChild(i).gameObject);
             }
         }
+
+        _activeItems = null;
     }
 }

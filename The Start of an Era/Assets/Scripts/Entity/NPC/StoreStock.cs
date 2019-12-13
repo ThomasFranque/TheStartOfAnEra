@@ -5,32 +5,20 @@ using UnityEngine;
 public class StoreStock
 {
     private float _increasePercentage;
-    private int _timesBought;
     private HashSet<IValue> _availableItems;
-
-    public int TimesBought
-    {
-        get => _timesBought / 5;
-        set
-        {
-            if (value == 0) _timesBought = 0;
-            else _timesBought++;
-        }
-    }
 
     public StoreStock()
     {
-        _timesBought = 0;
-        _increasePercentage = 0.0f;
+        _increasePercentage = 0.05f;
         _availableItems = new HashSet<IValue>();
     }
 
     // Updates all prices with the times bought
-    private void UpdatePrices()
+    public void UpdatePrices()
     {
         foreach (IValue v in _availableItems)
         {
-            v.PriceModifier = _increasePercentage * TimesBought;
+            v.PriceModifier = _increasePercentage;
         }
     }
 
@@ -45,12 +33,11 @@ public class StoreStock
     }
 
     // Returns all items in stock
-    public IEnumerable Items
+    public IEnumerable<IValue> Items
     {
         get
         {
-            foreach (IValue v in _availableItems)
-                yield return v;
+            return _availableItems;
         }
     }
 }
