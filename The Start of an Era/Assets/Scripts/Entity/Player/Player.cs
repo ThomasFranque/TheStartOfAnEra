@@ -5,7 +5,8 @@ using UnityEngine;
 public class Player : Entity
 {
     // Player variables
-    [SerializeField] protected float jumpSpeed = default;
+    [SerializeField]
+    protected float jumpSpeed = default;
 
     [Header("Attack transforms")]
     [SerializeField] protected LightAttack LightAttack = default;
