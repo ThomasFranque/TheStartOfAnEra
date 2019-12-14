@@ -1,30 +1,42 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class Player : Entity
 {
     // Player variables
-    [SerializeField]
-    protected float jumpSpeed, heavyTimer = default;
+    [SerializeField] protected float jumpSpeed = default;
 
-    private float timeOfJump, jumpTime, lightVelocity, heavyVelocity;
-    private int baseDmg, runeDmg;
-    private bool isJumpo;
+    [Header("Attack transforms")]
     [SerializeField] protected LightAttack LightAttack = default;
     [SerializeField] protected HeavyAttack HeavyAttack = default;
 
     [Header("Sound")]
-	[SerializeField]private AudioClip landSound = default;
+    [SerializeField] protected AudioClip landSound = default;
+
+    private float _timeOfJump, _jumpTime, _lightVelocity, _heavyVelocity, _heavyTimer;
+    private int _baseDmg, _runeDmg, _inventoryIndex;
+    private bool _isJumpo, _coolDown;
+
+    private HP_Potion[] _inventory;
+
 
     // Player properties
-	public override int HP { get; protected set; }
-    public int ActualDamage
+    public bool IsInventoryFull
     {
         get
         {
-            return ActualDamage = baseDmg + runeDmg;
-
+            return _inventory.All(x => x != null);
         }
+    }
+
+    public override int HP { get; protected set; }
+
+    public Player Instance { get; private set; }
+
+    public int ActualDamage
+    {
+        get => ActualDamage = _baseDmg + _runeDmg;
 
         private set
         {
@@ -32,22 +44,49 @@ public class Player : Entity
         }
     }
 
+    public bool Cooldown
+    {
+        get
+        {
+            if (_heavyTimer < 2.0f)
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
     protected override void Awake()
     {
         base.Awake();
-        HP = 100;
-        timeOfJump = -1500.0f;
-        jumpTime = 0.5f;
-        isJumpo = false;
-        baseDmg = 6;
-        runeDmg = 1;
-        lightVelocity = 25.0f;
+        HP = 50;
+        _timeOfJump = -1500.0f;
+        _jumpTime = 0.5f;
+        _isJumpo = false;
+        _baseDmg = 6;
+        _runeDmg = 1;
+        _lightVelocity = 25.0f;
+        _heavyTimer = 2.0f;
+        _inventoryIndex = 0;
+        _inventory = new HP_Potion[4];
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+            Instance = this;
+
+        DontDestroyOnLoad(Instance);
     }
 
     protected void Update()
     {
         Move();
         Attack();
+        NavigateInventory();
+
 
         //if(HP <= 0)
         //{
@@ -86,15 +125,15 @@ public class Player : Entity
         // Jump only if player is on the ground
         if (Input.GetKey(KeyCode.Space))
         {
-            if (IsGrounded && !isJumpo)
+            if (IsGrounded && !_isJumpo)
             {
                 rb.gravityScale = normalGrav / 3;
                 movement.y = jumpSpeed;
-                timeOfJump = Time.time;
-                isJumpo = true;
+                _timeOfJump = Time.time;
+                _isJumpo = true;
             }
 
-            else if ((Time.time - timeOfJump) < jumpTime && isJumpo)
+            else if ((Time.time - _timeOfJump) < _jumpTime && _isJumpo)
             {
                 rb.gravityScale = normalGrav / 3;
             }
@@ -108,9 +147,9 @@ public class Player : Entity
         // Onland
         else
         {
-            timeOfJump = -1500.0f;
+            _timeOfJump = -1500.0f;
             rb.gravityScale = normalGrav;
-            isJumpo = false;
+            _isJumpo = false;
 
             // Onland Sound
             audioSrc.pitch = Random.Range(1.0f, 1.5f);
@@ -121,8 +160,10 @@ public class Player : Entity
     protected override void OnHit(
         int damage, Vector3 hitDirection, float knockBackSpeed)
     {
+        knockbackTimer = 0.5f;
+
         HP -= damage;
-        rb.velocity = hitDirection * knockBackSpeed;
+        rb.velocity = knockBackSpeed * hitDirection;
         Debug.Log($"Player's HP: {HP}");
     }
 
@@ -130,23 +171,82 @@ public class Player : Entity
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            movement = movement * lightVelocity;
+            movement *= _lightVelocity;
             LightAttack.FindTargets();
         }
 
-        else if(Input.GetKeyDown(KeyCode.X))
+        else if (!Cooldown)
         {
-            if((Time.time - heavyTimer) < 0.0f)
+            if (Input.GetKeyDown(KeyCode.X))
             {
+                Debug.Log("Heavy atk");
+
                 HeavyAttack.FindTargets();
+
+                _heavyTimer = 2.0f;
             }
         }
     }
 
-
-    private void OnLand()
+    private void NavigateInventory()
     {
+        
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            _inventoryIndex += 1;
 
+            // Debug
+            print(_inventoryIndex);
+            print(_inventory[_inventoryIndex]);
+            // End debug
+
+            if (_inventoryIndex >= 3)
+            {
+                _inventoryIndex = 0;
+                print(_inventoryIndex);
+                print(_inventory[_inventoryIndex]);
+
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (_inventory[_inventoryIndex] is HP_Potion)
+            {
+                _inventory[_inventoryIndex].ItemUse();
+                _inventory[_inventoryIndex] = null;
+            }
+        }
+    }
+
+    public void InventoryAdd(HP_Potion item)
+    {
+        for (int i = 0; i < _inventory.Length; i++)
+        {
+            if (_inventory[i] == null)
+            {
+                _inventory[i] = item;
+                break;
+            }
+        }
+    }
+
+    public void Heal(int heal)
+    {
+        print($"Hp before heal: {HP}");
+ 
+        if (HP + heal > 100)
+        {
+            print($"At max health {HP}");
+
+            HP = 100;
+        }
+        else
+        {
+            print($"Hp after heal: {HP}");
+
+            HP += heal;
+        }
     }
 
     //INSERT INTERACTION METHOD FOR PLAYER TOWARDS WORLD
@@ -155,8 +255,14 @@ public class Player : Entity
 
     //}
 
+    // Co-Routines
     protected IEnumerator CWalkingAnim()
     {
         yield return new WaitForSeconds(0.0f);
-    }	
+    }
+
+    protected IEnumerator CColldown()
+    {
+        yield return new WaitForSeconds(1.5f);
+    }
 }

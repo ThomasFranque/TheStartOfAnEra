@@ -9,13 +9,13 @@ public class Gem : Collectable
 
 	[Header("--- Gem Properties ---")]
 	[SerializeField]
-	private Sprite lowValueSprt;
+	private Sprite lowValueSprt = default;
 	[SerializeField]
-	private Sprite mediumValueSprt;
+	private Sprite mediumValueSprt = default;
 	[SerializeField]
-	private Sprite highValueSprt;
+	private Sprite highValueSprt = default;
 	[SerializeField]
-	private Sprite legendayValueSprt;
+	private Sprite legendayValueSprt = default;
 
 
 	// Start is called before the first frame update

@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SetCam : MonoBehaviour
 {
 	[SerializeField]
-	private bool leftCam, rightCam;
+	private bool leftCam = default, rightCam = default;
 
     // Start is called before the first frame update
     void Start()
@@ -27,10 +25,4 @@ public class SetCam : MonoBehaviour
 					transform.position.y,
 					transform.position.z);
 	}
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
