@@ -87,7 +87,6 @@ public class Player : Entity
         Attack();
         NavigateInventory();
 
-
         //if(HP <= 0)
         //{
         //    Destroy(gameObject);
