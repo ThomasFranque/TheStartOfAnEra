@@ -7,6 +7,7 @@ public class Store : MonoBehaviour
 {
     private StoreCanvas _storeCanvas;
     protected StoreStock _stock;
+    private bool inRange;
 
     private void Awake()
     {
@@ -35,10 +36,20 @@ public class Store : MonoBehaviour
         _storeCanvas.gameObject.SetActive(false);
     }
 
+    private void FixedUpdate()
+    {
+        Player player = Physics2D.OverlapCircle(transform.position, 4).GetComponent<Player>();
+
+        if (player)
+        {
+            inRange = true;
+        }
+    }
+
     private void Update()
     {
         // If you open the store
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && inRange)
         {
             // Activates UI and populates it with the shop items
             _storeCanvas.gameObject.SetActive(!_storeCanvas.gameObject.activeSelf);
