@@ -9,7 +9,7 @@ public abstract class Entity : MonoBehaviour
     [Tooltip("Layers where player can stand and jump")]
     [SerializeField] protected LayerMask groundLayers = default;
     protected float normalGrav, knockBackSpeed, knockbackTimer;
-    protected Vector3 colliderOffset, Vector3, hitDirection;
+    protected Vector3 colliderOffset, hitDirection;
 
     protected Vector2 movement;
     protected Rigidbody2D rb;
@@ -30,13 +30,6 @@ public abstract class Entity : MonoBehaviour
         }
     }
 
-    protected virtual void Awake()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        audioSrc = GetComponent<AudioSource>();
-        normalGrav = 120.0f;
-    }
-
     protected bool Knockedback
     {
         get
@@ -50,17 +43,23 @@ public abstract class Entity : MonoBehaviour
         }
     }
     #endregion
+    protected virtual void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        audioSrc = GetComponent<AudioSource>();
+        normalGrav = 120.0f;
+    }
 
     public void Hit(int damage, Vector3 hitDirection, float knockBackSpeed)
-	{
-		OnHit(damage, hitDirection, knockBackSpeed);
-	}
+    {
+        OnHit(damage, hitDirection, knockBackSpeed);
+    }
 
     // Method for movement
-	protected abstract void Move();
-    
+    protected abstract void Move();
+
     // Method for taking damage 
-	protected abstract void OnHit(int damage, Vector3 hitDirection, float knockBackSpeed);
+    protected abstract void OnHit(int damage, Vector3 hitDirection, float knockBackSpeed);
 
     // Method for jump action
     protected abstract void Jump();

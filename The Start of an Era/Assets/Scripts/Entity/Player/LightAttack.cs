@@ -33,7 +33,7 @@ public class LightAttack : MonoBehaviour
 
             Vector3 hitDirection =
                 (enemyScript.transform.position -
-                transform.position).normalized * 3.5f;
+                playerScript.transform.position).normalized * 3.5f;
 
             hitDirection.y = 3.0f;
             hitDirection.z = 0.0f;
