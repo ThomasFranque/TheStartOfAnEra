@@ -37,7 +37,12 @@ public class Player : Entity
 
     public int ActualDamage
     {
-        get =>_baseDmg + _runeDmg;
+        get => ActualDamage = _baseDmg + _runeDmg;
+
+        private set
+        {
+
+        }
     }
 
     public bool Cooldown
@@ -72,9 +77,7 @@ public class Player : Entity
             Destroy(gameObject);
         }
         else
-        {
             Instance = this;
-        }
 
         DontDestroyOnLoad(Instance);
     }
@@ -85,10 +88,14 @@ public class Player : Entity
         Attack();
         NavigateInventory();
 
-        if (HP <= 0)
-        {
-            Destroy(gameObject);
-        }
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/PotionStoreTesting
+        //if(HP <= 0)
+        //{
+        //    Destroy(gameObject);
+        //}
     }
 
     // Method for player movement
@@ -192,12 +199,18 @@ public class Player : Entity
         {
             _inventoryIndex += 1;
 
+            // Debug
+            print(_inventoryIndex);
+            print(_inventory[_inventoryIndex]);
+            // End debug
+
             if (_inventoryIndex >= 3)
             {
                 _inventoryIndex = 0;
+                print(_inventoryIndex);
+                print(_inventory[_inventoryIndex]);
+
             }
-            print(_inventory[_inventoryIndex]);
-            print(HP);
         }
 
         if (Input.GetKeyDown(KeyCode.E))
@@ -237,8 +250,6 @@ public class Player : Entity
             print($"Hp after heal: {HP}");
 
             HP += heal;
-            print(HP);
-
         }
     }
 

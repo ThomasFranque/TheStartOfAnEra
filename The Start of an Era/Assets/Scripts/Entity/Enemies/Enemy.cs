@@ -20,6 +20,9 @@ public abstract class Enemy : Entity
 	[SerializeField]
 	private bool drawLineOfSight = default;
 
+	[SerializeField]
+	private Transform _groudCheck;
+
 	//////////////////////////////////////////////////////////////
 
 	protected RaycastHit2D spottedPlayer;
@@ -46,6 +49,12 @@ public abstract class Enemy : Entity
 	protected bool IsTargeting
 	{
 		get => targetedPlayerScript != null;
+	}
+
+	protected bool HasGround
+	{
+		get => Physics2D.OverlapCircle(
+			_groudCheck.position, 0.20f, LayerMask.GetMask("Ground"));
 	}
 
 	// Start is called before the first frame update
