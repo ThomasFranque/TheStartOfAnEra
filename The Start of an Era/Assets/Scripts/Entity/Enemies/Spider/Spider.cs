@@ -54,7 +54,7 @@ public class Spider : Enemy
 		timeOfIdleWalk = 5.0f;
 
         //maxSpeed = 85.0f;
-        maxSpeed = 0.0f;
+        //maxSpeed = 0.0f;
 
         jumpSpeed = 230;
 		jumpCooldownTime = 2.0f;
@@ -67,10 +67,10 @@ public class Spider : Enemy
     {
         base.Update();
 
-        //if(HP <= 0)
-        //{
-        //    Destroy(gameObject);
-        //}
+        if(HP <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     protected override void Move()
@@ -99,7 +99,7 @@ public class Spider : Enemy
                     ////
                     //if (walk.mute)
                     //	StartCoroutine(WalkCoroutine());
-                    ////
+                    //
 
                     // My solution, maybe works better?
                     // the sound should maybe loop too, and be shorter?
@@ -184,8 +184,8 @@ public class Spider : Enemy
 		audioSrc.PlayOneShot(jump);
 	}
 
-	//   internal IEnumerator WalkCoroutine()
-	//   {
+	//internal IEnumerator WalkCoroutine()
+	//{
 	//       walk.mute = false;
 	//       walk.pitch = Random.Range(0.75f, 1.5f);
 	//       yield return new WaitForSeconds(timeOfIdleWalk);
