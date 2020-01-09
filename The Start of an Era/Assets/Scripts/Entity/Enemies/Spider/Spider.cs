@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Spider : Enemy
 {
@@ -27,7 +25,7 @@ public class Spider : Enemy
 
 			foreach (Collider2D col in colliders)
 			{
-				if (col.tag == "Player")
+				if (col.CompareTag("Player"))
 					return 1 > 0;
 			}
 
@@ -41,7 +39,8 @@ public class Spider : Enemy
 	}
 	private bool IsIdle
 	{
-		get => Time.time < idleStopTime + timeOfIdleStop && Time.time > idleStopTime;
+		get => Time.time < idleStopTime + timeOfIdleStop &&
+			Time.time > idleStopTime;
 	}
 
 	protected override void Awake()
